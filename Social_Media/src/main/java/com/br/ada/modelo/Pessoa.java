@@ -4,22 +4,20 @@ import java.time.LocalDate;
 public abstract class Pessoa {
     private int id;
     private String nome;
-    private LocalDate dataNasc;
-    private String cpf;
-    private String regiaoOrigem;
-    private String regiaoMorada;
+    private LocalDate dataNascimento;
+    private String profissao;
+    private LocalDate dataCriacao;
 
     public Pessoa(){
 
     }
 
-    public Pessoa(int id, String nome, LocalDate dataNasc, String cpf, String regiaoOrigem, String regiaoMorada) {
+    public Pessoa(int id, String nome, LocalDate dataNascimento, String profissao, LocalDate dataCriacao) {
         this.id = id;
         this.nome = nome;
-        this.dataNasc = dataNasc;
-        this.cpf = cpf;
-        this.regiaoOrigem = regiaoOrigem;
-        this.regiaoMorada = regiaoMorada;
+        this.dataNascimento = dataNascimento;
+        this.profissao = profissao;
+        this.dataCriacao = dataCriacao;
     }
 
     public int getId() {
@@ -38,36 +36,28 @@ public abstract class Pessoa {
         this.nome = nome;
     }
 
-    public LocalDate getDataNasc() {
-        return dataNasc;
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
     }
 
-    public void setDataNasc(LocalDate dataNasc) {
-        this.dataNasc = dataNasc;
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getProfissao() {
+        return profissao;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setProfissao(String profissao) {
+        this.profissao = profissao;
     }
 
-    public String getRegiaoOrigem() {
-        return regiaoOrigem;
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
     }
 
-    public void setRegiaoOrigem(String regiaoOrigem) {
-        this.regiaoOrigem = regiaoOrigem;
-    }
-
-    public String getRegiaoMorada() {
-        return regiaoMorada;
-    }
-
-    public void setRegiaoMorada(String regiaoMorada) {
-        this.regiaoMorada = regiaoMorada;
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 
     @Override
@@ -75,10 +65,9 @@ public abstract class Pessoa {
         return "Pessoa{" +
                 "Id: " + id +
                 ", Nome: '" + nome + '\'' +
-                ", Data de Nascimento: " + dataNasc +
-                ", CPF: '" + cpf + '\'' +
-                ", Região de origem: '" + regiaoOrigem + '\'' +
-                ", Região onde mora: '" + regiaoMorada + '\'' +
+                ", Data de nascimento: " + dataNascimento +
+                ", Profissão: '" + profissao + '\'' +
+                ", Criado em: " + dataCriacao +
                 '}';
     }
 }
