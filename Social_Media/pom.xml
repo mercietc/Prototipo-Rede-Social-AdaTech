@@ -13,7 +13,9 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <build>
+
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -24,4 +26,7 @@
             </plugins>
         </pluginManagement>
     </build>
+    <dependencies>
+
+    </dependencies>
 </project>

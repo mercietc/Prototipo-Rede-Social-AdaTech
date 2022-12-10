@@ -5,6 +5,10 @@ import com.br.ada.modelo.UsuarioBuilder;
 
 import java.time.LocalDate;
 
+import static com.br.ada.Utilidade.SenhaUtil.checarSenha;
+import static com.br.ada.Utilidade.SenhaUtil.codificarSenha;
+
+
 public class UsuarioTeste {
     public static void main(String[] args) {
         Usuario novoUsuario =
@@ -13,7 +17,7 @@ public class UsuarioTeste {
                         .profissao("Desenvolvedora")
                         .nomeUsuario("brunak")
                         .email("bruna@gmail.com")
-                        .senha("fortes123")
+                        .senha(codificarSenha("fortes123"))
                         .build();
 
         Usuario novoUsuario2 =
@@ -22,7 +26,7 @@ public class UsuarioTeste {
                         .profissao("Desenvolvedora")
                         .nomeUsuario("brunak")
                         .email("bruna@gmail.com")
-                        .senha("fortes123")
+                        .senha(codificarSenha("fortes123"))
                         .build();
 
 
@@ -34,6 +38,11 @@ public class UsuarioTeste {
                         .idUsuario(novoUsuario2.getId())
                         .build();
 
-        System.out.println(novoPost);
+        ;
+        String resposta  = checarSenha("Fortes123", novoUsuario2.getSenha()) ?
+                "Logado!" : "Senha incorreta!";
+        System.out.println(resposta);
+
+
     }
 }
