@@ -1,5 +1,4 @@
 package com.br.ada.modelo;
-
 import java.time.LocalDate;
 
 public abstract class Pessoa {
