@@ -2,7 +2,7 @@ package com.br.ada.modelo;
 
 import java.time.LocalDate;
 
-public class Post {
+public class Post implements Comentario{
     private int id;
     private String titulo;
     private String corpo;
