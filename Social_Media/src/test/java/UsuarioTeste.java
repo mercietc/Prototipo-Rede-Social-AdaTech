@@ -26,7 +26,7 @@ public class UsuarioTeste {
                         .profissao("Desenvolvedora")
                         .nomeUsuario("brunak")
                         .email("bruna@gmail.com")
-                        .senha(codificarSenha("fortes123"))
+                        .senha(codificarSenha("KIDABELHA"))
                         .build();
 
 
@@ -41,7 +41,7 @@ public class UsuarioTeste {
         ;
         String resposta  = checarSenha("Fortes123", novoUsuario2.getSenha()) ?
                 "Logado!" : "Senha incorreta!";
-        System.out.println(resposta);
+        System.out.println(novoUsuario2.getSenha());
 
 
     }

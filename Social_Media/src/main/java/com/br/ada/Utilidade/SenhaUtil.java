@@ -4,6 +4,74 @@ import java.util.List;
 
 
 public class SenhaUtil {
+        public static void main(String[] args) {
+                String[] alfabetoCap =
+                        {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
+                        "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
+                        "W", "X", "Y", "Z"};
+
+                String[] alfabetoLower =
+                        {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
+                                "l", "m", "n", "o", "p", "q", "r", "s", "t",
+                                "u", "v",
+                                "w", "x", "y", "z"};
+                String[] number =
+                        {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+                List<String> list = Arrays.asList(alfabetoCap);
+                List<String> lowerList = Arrays.asList(alfabetoLower);
+                List<String> numberList = Arrays.asList(number);
+String senha = "Kid@belhabk8899";
+                String[] senhaArray = senha.split("");
+                List<String> senhaList = Arrays.asList(senhaArray);
+                for(int i = 0; i < list.size(); i++) {
+                        for(int j = 0; j < senhaList.size(); j++) {
+                                if(senhaList.get(j).matches("[~!@#$%^&*()" +
+                                        "_+{}\\[\\]:;,.<>/?-]"))
+                                        senhaList.set(j, "//"+senhaList.get(j)+"//");
+                                for (int k = 0; k < numberList.size(); k++) {
+                                        if (senhaList.get(j).equals(list.get(i))) {
+                                                int alfabetoLength = list.size();
+                                                int index = String.join("", list).indexOf(list.get(i), 0);
+                                                int code = alfabetoLength - index;
+                                                if (code % 2 == 0) {
+                                                        senhaList.set(j, "(." + code + "#)");
+                                                } else {
+                                                        senhaList.set(j, "(." + code + "$)");
+
+                                                }
+
+                                        } else if (senhaList.get(j).equals(lowerList.get(i))) {
+                                                int alfabetoLength = lowerList.size();
+                                                int index = String.join("", lowerList).indexOf(lowerList.get(i), 0);
+                                                int code = alfabetoLength - index;
+                                                if (code % 2 == 0) {
+                                                        senhaList.set(j, "(." + code + "#)<");
+                                                } else {
+                                                        senhaList.set(j, "(." + code + "$)<");
+
+                                                }
+                                        } else if(senhaList.get(j).equals(numberList.get(k))) {
+                                                int numeroLength =
+                                                        numberList.size();
+                                                int index = String.join("",
+                                                        numberList).indexOf(numberList.get(k), 0);
+                                                int code = numeroLength - index;
+                                                if (code % 2 == 0) {
+                                                        senhaList.set(j,
+                                                                "(;" + list.get(list.size() - 1 - index) + list.get(index) +
+                                                                        "&)");
+                                                } else {
+                                                        senhaList.set(j,
+                                                                "(;" + list.get(list.size() - 1 - index) + list.get(index) + "@)");
+
+                                                }
+                                        }
+                                }
+                        }
+                }
+
+                System.out.println(String.join("-%<", senhaList));
+        }
         public static String codificarSenha(String senha) {
                 String[] senhaArray = senha.split("");
                 List<String> list = Arrays.asList(senhaArray);
