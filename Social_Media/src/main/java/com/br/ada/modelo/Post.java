@@ -27,6 +27,7 @@ public class Post implements Comentario{
     }
 
     public void setId(int id) {
+        this.dataAtualizacao = LocalDate.now();
         this.id = id;
     }
 
@@ -35,6 +36,7 @@ public class Post implements Comentario{
     }
 
     public void setTitulo(String titulo) {
+        this.dataAtualizacao = LocalDate.now();
         this.titulo = titulo;
     }
 
@@ -43,6 +45,7 @@ public class Post implements Comentario{
     }
 
     public void setCorpo(String corpo) {
+        this.dataAtualizacao = LocalDate.now();
         this.corpo = corpo;
     }
 
@@ -51,6 +54,7 @@ public class Post implements Comentario{
     }
 
     public void setIdUsuario(int idUsuario) {
+        this.dataAtualizacao = LocalDate.now();
         this.idUsuario = idUsuario;
     }
 
@@ -72,13 +76,13 @@ public class Post implements Comentario{
 
     @Override
     public String toString() {
-        return "Post{" +
+        return "Post [ " +
                 "Id: " + id +
                 ", Título: '" + titulo + '\'' +
-                ", Corpo: " + corpo + '\'' +
+                ", Corpo: '" + corpo + '\'' +
                 ", Id do usuário: " + idUsuario +
                 ", Criado em: " + dataCriacao +
                 ", Atualizado em: " + dataAtualizacao +
-                '}';
+                " ]";
     }
 }
