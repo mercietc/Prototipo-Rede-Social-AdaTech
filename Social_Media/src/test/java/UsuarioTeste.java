@@ -5,8 +5,8 @@ import com.br.ada.modelo.UsuarioBuilder;
 
 import java.time.LocalDate;
 
-import static com.br.ada.Utilidade.SenhaUtil.checarSenha;
-import static com.br.ada.Utilidade.SenhaUtil.codificarSenha;
+import static com.br.ada.utilidade.SenhaUtil.checarSenha;
+import static com.br.ada.utilidade.SenhaUtil.codificarSenha;
 
 
 public class UsuarioTeste {
@@ -39,9 +39,9 @@ public class UsuarioTeste {
                         .build();
 
         ;
-        String resposta  = checarSenha("Fortes123", novoUsuario2.getSenha()) ?
+        String resposta  = checarSenha("KIDABELHA", novoUsuario2.getSenha()) ?
                 "Logado!" : "Senha incorreta!";
-        System.out.println(novoUsuario2.getSenha());
+        System.out.println(resposta);
 
 
     }

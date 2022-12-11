@@ -61,7 +61,10 @@ public class UsuarioBuilder {
     public Usuario build(){
         id();
         dataCriacao();
-        return new Usuario(nome, dataNascimento, profissao, id,
+        Usuario novoUsuario =  new Usuario(nome, dataNascimento, profissao,
                 nomeUsuario, email, senha, dataCriacao);
+
+         novoUsuario.setId(id);
+        return novoUsuario;
     }
 }

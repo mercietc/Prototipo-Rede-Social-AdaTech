@@ -6,12 +6,11 @@ public abstract class Pessoa {
     private LocalDate dataNascimento;
     private String profissao;
 
-    public Pessoa(){
+    protected Pessoa(){
 
     }
 
-    public Pessoa(String nome, LocalDate dataNascimento, String profissao) {
-
+    protected Pessoa(String nome, LocalDate dataNascimento, String profissao) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.profissao = profissao;

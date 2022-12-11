@@ -21,9 +21,8 @@ public class Usuario extends Pessoa{
         this.dataCriacao = dataCriacao;
     }
 
-    public Usuario(String nome, LocalDate dataNascimento, String profissao,  int id, String nomeUsuario, String email, String senha, LocalDate dataCriacao) {
+    public Usuario(String nome, LocalDate dataNascimento, String profissao, String nomeUsuario, String email, String senha, LocalDate dataCriacao) {
         super( nome, dataNascimento, profissao);
-        this.id = id;
         this.nomeUsuario = nomeUsuario;
         this.email = email;
         this.senha = senha;
