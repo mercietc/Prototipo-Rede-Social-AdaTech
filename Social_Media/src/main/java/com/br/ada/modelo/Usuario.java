@@ -21,21 +21,19 @@ public class Usuario extends Pessoa{
         this.dataCriacao = dataCriacao;
     }
 
-    public Usuario(int id, String nome, LocalDate dataNascimento, String profissao, LocalDate dataCriacao, int id1, String nomeUsuario, String email, String senha, LocalDate dataCriacao1) {
-        super(id, nome, dataNascimento, profissao, dataCriacao);
-        this.id = id1;
+    public Usuario(String nome, LocalDate dataNascimento, String profissao, String nomeUsuario, String email, String senha, LocalDate dataCriacao) {
+        super( nome, dataNascimento, profissao);
         this.nomeUsuario = nomeUsuario;
         this.email = email;
         this.senha = senha;
-        this.dataCriacao = dataCriacao1;
+        this.dataCriacao = dataCriacao;
     }
 
-    @Override
+
     public int getId() {
         return id;
     }
 
-    @Override
     public void setId(int id) {
         this.id = id;
     }
@@ -64,24 +62,23 @@ public class Usuario extends Pessoa{
         this.senha = senha;
     }
 
-    @Override
     public LocalDate getDataCriacao() {
         return dataCriacao;
     }
 
-    @Override
     public void setDataCriacao(LocalDate dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
     @Override
     public String toString() {
-        return "Usuario{" +
+        return "Usuário [ " +
                 "Id: " + id +
+                ", " + super.toString() +
                 ", Nome de usuário: '" + nomeUsuario + '\'' +
                 ", E-mail: " + email + '\'' +
                 ", Senha: '" + senha + '\'' +
                 ", Criado em: " + dataCriacao +
-                '}';
+                " ]";
     }
 }
