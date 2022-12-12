@@ -2,8 +2,10 @@ import com.br.ada.modelo.Post;
 import com.br.ada.modelo.PostBuilder;
 import com.br.ada.modelo.Usuario;
 import com.br.ada.modelo.UsuarioBuilder;
+import com.br.ada.utilidade.ArquivoUtil;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static com.br.ada.utilidade.SenhaUtil.checarSenha;
 import static com.br.ada.utilidade.SenhaUtil.codificarSenha;
@@ -41,8 +43,9 @@ public class UsuarioTeste {
         ;
         String resposta  = checarSenha("KIDABELHA", novoUsuario2.getSenha()) ?
                 "Logado!" : "Senha incorreta!";
-        System.out.println(resposta);
+//        System.out.println(resposta);
+        List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo( "usuarioDatabase");
 
-
+        System.out.println(usuariosData.get(usuariosData.size() - 1).getId());
     }
 }

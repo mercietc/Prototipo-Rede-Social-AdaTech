@@ -1,4 +1,8 @@
-package com.br.ada.modelo;
+package com.br.ada.servico;
+
+import com.br.ada.modelo.Post;
+import com.br.ada.modelo.PostBuilder;
+import com.br.ada.modelo.Usuario;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -6,10 +10,10 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Utils {
+public class PostServico {
     static Logger logger
             = Logger.getLogger(
-            Utils.class.getName());
+            PostServico.class.getName());
     //implementacao dos metodos genericos
     public Post criaPost(Usuario usuario){
         Scanner in = new Scanner(System.in);

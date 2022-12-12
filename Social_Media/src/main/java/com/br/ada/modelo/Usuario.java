@@ -13,13 +13,7 @@ public class Usuario extends Pessoa{
 
     }
 
-    public Usuario(int id, String nomeUsuario, String email, String senha, LocalDate dataCriacao) {
-        this.id = id;
-        this.nomeUsuario = nomeUsuario;
-        this.email = email;
-        this.senha = senha;
-        this.dataCriacao = dataCriacao;
-    }
+
 
     public Usuario(String nome, LocalDate dataNascimento, String profissao, String nomeUsuario, String email, String senha, LocalDate dataCriacao) {
         super( nome, dataNascimento, profissao);
