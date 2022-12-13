@@ -5,12 +5,14 @@ import com.br.ada.modelo.Usuario;
 import com.br.ada.utilidade.ArquivoUtil;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.br.ada.servico.PostServico.fluxoMeuPost;
+import static com.br.ada.utilidade.DataUtil.formatarDataToString;
 
 public class PlataformaRepository {
     static Scanner input = new Scanner(System.in);
@@ -36,16 +38,21 @@ public class PlataformaRepository {
         List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo( "usuarioDatabase");
 
         List<Post> postData = new ArquivoUtil<String>().lerPost( "postDatabase");
+        Stream<Post> postStream = postData.stream();
+        Stream<Post> sorted = postStream.sorted(Comparator.comparing(Post::getDataCriacao));
+        List<Post> postListSort = sorted.collect(Collectors.toList());
 
-        for(Post post : postData) {
+        for(Post post : postListSort) {
             Stream<Usuario> usuarioStream =
                     usuariosData.stream().filter(data -> data.getId() == post.getIdUsuario());
 
             String feedPost = "Id: " + post.getId() + '\n' +
                     "Título: " + post.getTitulo() + '\n' +
                     "Conteúdo: " + post.getCorpo() + '\n' +
-                    "Autor: " + usuarioStream.findFirst().get().getNome()
-                    + '\n';
+                    "Autor: " + usuarioStream.findFirst().get().getNome() + '\n' +
+                    "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
+                    "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
+                    '\n';
 
             System.out.println(feedPost);
         }
@@ -67,7 +74,10 @@ public class PlataformaRepository {
                         "Título: " + post.getTitulo() + '\n' +
                         "Conteúdo: " + post.getCorpo() + '\n' +
                         "Autor: " + usuarioLogado.findFirst().get().getNome()
-                        + '\n';
+                        + '\n'
+                + "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
+                        "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
+                        '\n';;
                 System.out.println(feedPost);
             }
 

@@ -24,13 +24,18 @@ public class DataUtil {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             return LocalDate.parse(date, formatter);
         } catch(DateTimeParseException e) {
-            System.err.println("Data inserida possui formato inválido. Formato aceito: DD/MM/AAAA");
+            System.err.println("Data inserida possui formato inválido. Formato aceito: yyyy-MM-dd");
             iniciarAplicacao();
 
         }
         return  null;
     }
 
+    public static String formatarDataToString(LocalDate date) {
+        String dateString = date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear();
+
+        return  dateString;
+    }
     public static String saudarUsuario() {
         LocalTime time = LocalTime.now();
         int hora = time.getHour();

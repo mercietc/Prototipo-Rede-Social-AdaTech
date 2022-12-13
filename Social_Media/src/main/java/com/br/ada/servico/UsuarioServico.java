@@ -38,7 +38,7 @@ public class UsuarioServico {
         direcionarFluxo(opcao);
     }
 
-    private static void direcionarFluxo(String opcao) {
+    public static void direcionarFluxo(String opcao) {
         switch (opcao) {
             case "1":
                 obterInfoLogin();

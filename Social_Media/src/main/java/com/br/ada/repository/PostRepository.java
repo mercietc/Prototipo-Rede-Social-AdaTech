@@ -3,7 +3,7 @@ package com.br.ada.repository;
 import com.br.ada.modelo.Post;
 import com.br.ada.modelo.PostBuilder;
 import com.br.ada.modelo.Usuario;
-import com.br.ada.servico.PlataformaServico;
+
 import com.br.ada.utilidade.ArquivoUtil;
 
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import static com.br.ada.servico.PostServico.opcoesPost;
 import static com.br.ada.servico.UsuarioServico.exibirOpcoesDePerfil;
 
+import static com.br.ada.utilidade.DataUtil.formatarDataToString;
 import static com.br.ada.utilidade.GeneralUtil.isInteger;
 
 public class PostRepository {
@@ -25,8 +26,8 @@ public class PostRepository {
             PostRepository.class.getName());
     public static void criaPost(String titulo, String corpo, Usuario usuario) {
         Post post =  new PostBuilder()
-                .titulo(titulo)
-                .corpo(corpo)
+                .titulo(titulo.replace(",", ";"))
+                .corpo(corpo.replace(",", ";"))
                 .idUsuario(usuario.getId())
                 .build();
 
@@ -61,7 +62,10 @@ public class PostRepository {
                             "Título: " + post.getTitulo() + '\n' +
                             "Conteúdo: " +  post.getCorpo() + '\n' +
                             "Autor: " + usuarioStream.findFirst().get().getNome()
-                            + '\n';
+                            + '\n' +
+                            "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
+                            "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
+                            '\n';
 
                     System.out.println(feedPost);
                 }
