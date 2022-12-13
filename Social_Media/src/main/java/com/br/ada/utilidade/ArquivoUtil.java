@@ -1,5 +1,7 @@
 package com.br.ada.utilidade;
 
+import com.br.ada.modelo.Post;
+import com.br.ada.modelo.PostBuilder;
 import com.br.ada.modelo.Usuario;
 import com.br.ada.modelo.UsuarioBuilder;
 
@@ -130,4 +132,45 @@ public class ArquivoUtil<T> {
 
             return null;
         }
+
+    public List<Post> lerPost (String fileName) {
+        String path = "Social_Media/src/main/resources/" + fileName + ".csv";
+        Path path1 = Path.of(path);
+        try (BufferedReader file = new BufferedReader(new FileReader(path1.toFile()))) {
+            String row = file.readLine();
+            List<Post> arquivo = new ArrayList<>();
+            List<String> linhas = new ArrayList<>();
+            while (row != null) {
+                row = file.readLine();
+                linhas.add(row);
+                if(row != null) {
+                    row = file.readLine();
+                    linhas.add(row);
+                }
+            }
+            linhas.remove(linhas.get(linhas.size() - 1));
+            for(int i = 0; i < linhas.size(); i++) {
+
+                String[] info = linhas.get(i).split(",");
+                Post post =  new PostBuilder()
+                        .titulo(info[2])
+                        .corpo(info[3])
+                        .idUsuario(Integer.parseInt(info[1]))
+                        .build();
+
+                post.setId(Integer.parseInt(info[0]));
+                post.setDataCriacao(formatarData2(info[4]));
+                post.setDataAtualizacao(formatarData2(info[5]));
+                arquivo.add(post);
+
+            }
+            return arquivo;
+
+        } catch (
+                IOException e) {
+            System.out.println("error:" + e.getMessage());
+        }
+
+        return null;
+    }
 }

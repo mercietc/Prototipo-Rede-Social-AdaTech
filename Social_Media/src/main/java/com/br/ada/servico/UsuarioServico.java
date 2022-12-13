@@ -1,12 +1,16 @@
 package com.br.ada.servico;
 
 import com.br.ada.modelo.Usuario;
+import com.br.ada.utilidade.ArquivoUtil;
 
+import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.br.ada.repository.UsuarioRepository.*;
+import static com.br.ada.servico.PlataformaServico.obterTipoPesquisa;
+import static com.br.ada.servico.PostServico.obterPostInfo;
 import static com.br.ada.utilidade.DataUtil.saudarUsuario;
 
 public class UsuarioServico {
@@ -74,7 +78,7 @@ public class UsuarioServico {
     private static void direcionarFluxoDePerfil(String opcao , Usuario usuario) {
         switch (opcao) {
             case "1":
-                System.out.println("Criar post");
+                obterPostInfo(usuario);
                 break;
             case "2":
                 System.out.println("ver posts");
@@ -92,13 +96,16 @@ public class UsuarioServico {
                 System.out.println("amigos");
                 break;
             case "7":
-                System.out.println("pesquisar");
+                obterTipoPesquisa(usuario);
                 break;
             case "8":
                 System.out.println("notificacoes");
                 break;
             case "9":
                 System.out.println("Até mais, " + usuario.getNome() + "!");
+                ArquivoUtil<String> arquivo = new ArquivoUtil<>();
+                arquivo.escreverArquivo(usuario.getNome() + ": Horário Logout: " + LocalDateTime.now(),
+                        "historicoSessao");
                 System.exit(0);
                 break;
             default:

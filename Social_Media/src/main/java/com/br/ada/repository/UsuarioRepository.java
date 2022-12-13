@@ -2,6 +2,8 @@ package com.br.ada.repository;
 import com.br.ada.modelo.Usuario;
 import com.br.ada.modelo.UsuarioBuilder;
 import com.br.ada.utilidade.ArquivoUtil;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -106,6 +108,9 @@ if(usuarioStream.count() > 0) {
                 iniciarAplicacao();
             } else {
                 System.out.println("Login realizado com sucesso!" + '\n');
+                ArquivoUtil<String> arquivo = new ArquivoUtil<>();
+                arquivo.escreverArquivo(obterUsuario(usuario).getNome() + ": Horário Login: " + LocalDateTime.now(),
+                        "historicoSessao");
                 exibirOpcoesDePerfil(obterUsuario(usuario));
             }
 

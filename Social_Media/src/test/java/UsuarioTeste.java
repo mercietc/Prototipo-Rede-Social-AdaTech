@@ -61,6 +61,9 @@ public class UsuarioTeste {
             saudacao = "Bom dia, ";
 
 
-        System.out.println(saudacao);
+//        System.out.println(saudacao);
+        List<Post> postData = new ArquivoUtil<String>().lerPost( "postDatabase");
+
+        System.out.println(postData.get(postData.size() - 1).getId() + 1);
     }
 }

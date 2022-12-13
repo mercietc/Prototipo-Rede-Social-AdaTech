@@ -3,19 +3,23 @@ package com.br.ada.servico;
 import com.br.ada.modelo.Post;
 import com.br.ada.modelo.PostBuilder;
 import com.br.ada.modelo.Usuario;
+import com.br.ada.utilidade.ArquivoUtil;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.br.ada.repository.PostRepository.criaPost;
 
 public class PostServico {
     static Logger logger
             = Logger.getLogger(
             PostServico.class.getName());
     //implementacao dos metodos genericos
-    public Post criaPost(Usuario usuario){
+    public static void obterPostInfo(Usuario usuario){
         Scanner in = new Scanner(System.in);
         logger.log(Level.INFO,"\n------------------------ Novo Post ------------------------");
 
@@ -23,12 +27,8 @@ public class PostServico {
         String titulo = in.nextLine();
         logger.log(Level.INFO,"Digite o corpo do post: ");
         String corpo = in.nextLine();
+        criaPost(titulo,corpo, usuario);
 
-        return new PostBuilder()
-                .titulo(titulo)
-                .corpo(corpo)
-                .idUsuario(usuario.getId())
-                .build();
     }
 
     public static LocalDate criaData() {
