@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import static com.br.ada.repository.PlataformaRepository.pesquisarPost;
 import static com.br.ada.repository.PlataformaRepository.pesquisarUsuario;
-import static com.br.ada.servico.PostServico.obterPostInfo;
 import static com.br.ada.servico.UsuarioServico.exibirOpcoesDePerfil;
 
 public class PlataformaServico {

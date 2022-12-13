@@ -39,7 +39,6 @@ public class ArquivoUtil<T> {
         limparArquivo(fileName);
 
         try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path1.toFile(), true))) {
-
             csvWriter.write("ID,NOME,DATA DE NASCIMENTO,PROFISSAO,NOME DE USUARIO,E-MAIL,SENHA,DATA DE CRIACAO\n");
             for(int i = 0; i < lista.size(); i++) {
                 if (lista.get(i).getNomeUsuario().equals(usuario.getNomeUsuario())) {
@@ -165,6 +164,58 @@ public class ArquivoUtil<T> {
 
             }
             return arquivo;
+
+        } catch (
+                IOException e) {
+            System.out.println("error:" + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public List<Post> atualizarPost (List<Post> lista, String fileName, Post post) {
+        String path = "Social_Media/src/main/resources/" + fileName + ".csv";
+        Path path1 = Path.of(path);
+        limparArquivo(fileName);
+
+        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path1.toFile(), true))) {
+            csvWriter.write("ID,ID DO USUARIO,TITULO,CORPO,DATA DE CRIACAO,DATA DE ATUALIZACAO\n");
+            for(int i = 0; i < lista.size(); i++) {
+                if (lista.get(i).getId() == post.getId()) {
+                    lista.set(i, post);
+
+                }
+                String stringPost = lista.get(i).getId() + "," + lista.get(i).getIdUsuario() + "," +
+                        lista.get(i).getTitulo() + "," + lista.get(i).getCorpo() + "," +
+                        lista.get(i).getDataCriacao() + "," + lista.get(i).getDataAtualizacao();
+                csvWriter.write(stringPost);
+                csvWriter.newLine();
+                csvWriter.flush();
+            }
+
+        } catch (
+                IOException e) {
+            System.out.println("error:" + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public List<Post> deletarPost (List<Post> lista, String fileName, Post post) {
+        String path = "Social_Media/src/main/resources/" + fileName + ".csv";
+        Path path1 = Path.of(path);
+        limparArquivo(fileName);
+
+        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path1.toFile(), true))) {
+            csvWriter.write("ID,ID DO USUARIO,TITULO,CORPO,DATA DE CRIACAO,DATA DE ATUALIZACAO\n");
+            for(int i = 0; i < lista.size(); i++) {
+                String stringPost = lista.get(i).getId() + "," + lista.get(i).getIdUsuario() + "," +
+                        lista.get(i).getTitulo() + "," + lista.get(i).getCorpo() + "," +
+                        lista.get(i).getDataCriacao() + "," + lista.get(i).getDataAtualizacao();
+                csvWriter.write(stringPost);
+                csvWriter.newLine();
+                csvWriter.flush();
+            }
 
         } catch (
                 IOException e) {

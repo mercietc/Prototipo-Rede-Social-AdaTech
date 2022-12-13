@@ -8,11 +8,15 @@ import com.br.ada.utilidade.ArquivoUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.br.ada.repository.PostRepository.criaPost;
+import static com.br.ada.repository.PostRepository.*;
+import static com.br.ada.repository.UsuarioRepository.editarUsuario;
+import static com.br.ada.servico.UsuarioServico.exibirOpcoesDePerfil;
+import static com.br.ada.servico.UsuarioServico.input;
 
 public class PostServico {
     static Logger logger
@@ -38,4 +42,61 @@ public class PostServico {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return LocalDate.parse(stringData, formatter);
     }
+
+    public static void fluxoMeuPost(String opcao, Usuario usuario, List<Post> meusPosts) {
+        switch (opcao) {
+            case "1":
+                System.out.println("Digite o Id do post:");
+                abrirMeuPost(input.nextLine(), meusPosts, usuario);
+                break;
+            case "2":
+                exibirOpcoesDePerfil(usuario);
+                break;
+            default:
+                logger.log(Level.WARNING, "Opção inválida!" + '\n');
+                exibirOpcoesDePerfil(usuario);
+        }
+
+    }
+
+
+    public static void opcoesPost(Usuario usuario, Post post) {
+        System.out.println("O que deseja fazer:");
+        String menu =  "\n" + "1 - Editar Post" +
+                "\n" + "2 - Excluir Post" +
+                "\n" + "3 - Ver Comentários" +
+                "\n" + "4 - Voltar ao Menu Principal "
+                + "\n";
+        System.out.println(menu);
+        System.out.println("Digite a opção desejada:");
+        switch (input.nextLine()) {
+            case "1":
+                System.out.println("Modo Edição:");
+                exibirOpcoesDeEdicaoPost(post, usuario);
+                break;
+            case "2":
+                apagarPost(post, usuario);
+                break;
+            case "3":
+                System.out.println("ver comentários");
+                break;
+            case "4":
+                exibirOpcoesDePerfil(usuario);
+                break;
+            default:
+                logger.log(Level.WARNING, "Opção inválida!" + '\n');
+                exibirOpcoesDePerfil(usuario);
+        }
+    }
+
+    public static void exibirOpcoesDeEdicaoPost(Post post, Usuario usuario){
+        System.out.println("Insira a opção que você gostaria de editar:");
+        String menu =  "\n" + "1 - Título" +
+                "\n" + "2 - Conteúdo" +
+                "\n" + "3 - Voltar";
+
+        System.out.println(menu);
+        editarPost(post, input.nextLine(), usuario);
+    }
+
 }

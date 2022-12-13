@@ -8,6 +8,8 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.br.ada.repository.PlataformaRepository.verFeed;
+import static com.br.ada.repository.PlataformaRepository.verMeusPosts;
 import static com.br.ada.repository.UsuarioRepository.*;
 import static com.br.ada.servico.PlataformaServico.obterTipoPesquisa;
 import static com.br.ada.servico.PostServico.obterPostInfo;
@@ -81,10 +83,11 @@ public class UsuarioServico {
                 obterPostInfo(usuario);
                 break;
             case "2":
-                System.out.println("ver posts");
-                break;
+                verMeusPosts(usuario);
+               break;
             case "3":
-                System.out.println("ver feed");
+                verFeed();
+                exibirOpcoesDePerfil(usuario);
                 break;
             case "4":
                 exibirOpcoesDeEdicaoPerfil(usuario);
