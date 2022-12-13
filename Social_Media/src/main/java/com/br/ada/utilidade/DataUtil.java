@@ -1,5 +1,6 @@
 package com.br.ada.utilidade;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -28,5 +29,23 @@ public class DataUtil {
 
         }
         return  null;
+    }
+
+    public static String saudarUsuario() {
+        LocalTime time = LocalTime.now();
+        int hora = time.getHour();
+        String  saudacao = "Boa noite, ";
+        if(hora > 17) {
+            saudacao = "Boa noite, ";
+        } else if (hora > 11) {
+            saudacao = "Boa tarde, ";
+
+        } else if( hora > 5) {
+            saudacao = "Bom dia, ";
+        }
+
+        return saudacao;
+
+
     }
 }

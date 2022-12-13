@@ -4,6 +4,7 @@ import com.br.ada.modelo.Usuario;
 import com.br.ada.modelo.UsuarioBuilder;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +16,8 @@ public class ArquivoUtil<T> {
 
 
             String path = "Social_Media/src/main/resources/" + fileName + ".csv";
-
-            try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path, true))) {
+            Path path1 = Path.of(path);
+            try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path1.toFile(), true))) {
 
 
                 csvWriter.write(t.toString());
@@ -29,10 +30,64 @@ public class ArquivoUtil<T> {
             }
 
         }
+    public ArquivoUtil atualizarArquivo(List<Usuario> lista, String fileName, Usuario usuario) {
 
-        public List<Usuario> lerArquivo (String fileName) {
+        String path = "Social_Media/src/main/resources/" + fileName + ".csv";
+        Path path1 = Path.of(path);
+        limparArquivo(fileName);
+
+        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path1.toFile(), true))) {
+
+            csvWriter.write("ID,NOME,DATA DE NASCIMENTO,PROFISSAO,NOME DE USUARIO,E-MAIL,SENHA,DATA DE CRIACAO\n");
+            for(int i = 0; i < lista.size(); i++) {
+                if (lista.get(i).getNomeUsuario().equals(usuario.getNomeUsuario())) {
+                    lista.set(i, usuario);
+
+                }
+                String stringUser = lista.get(i).getId() + "," + lista.get(i).getNome() + "," +
+                        lista.get(i).getDataNascimento() + "," + lista.get(i).getProfissao() + "," +
+                        lista.get(i).getNomeUsuario() + "," + lista.get(i).getEmail() + "," +
+                        lista.get(i).getSenha() + "," + lista.get(i).getDataCriacao();
+
+                csvWriter.write(stringUser);
+                csvWriter.newLine();
+                csvWriter.flush();
+            }
+
+
+
+
+        } catch (
+                IOException e) {
+            System.out.println("error:" + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public ArquivoUtil limparArquivo(String fileName) {
+
+
+        String path = "Social_Media/src/main/resources/" + fileName + ".csv";
+        Path path1 = Path.of(path);
+
+
+        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path1.toFile(), false))) {
+
+            csvWriter.write("");
+            csvWriter.flush();
+        }catch (
+                IOException e) {
+            System.out.println("error:" + e.getMessage());
+        }
+
+        return null;
+    }
+
+            public List<Usuario> lerArquivo (String fileName) {
             String path = "Social_Media/src/main/resources/" + fileName + ".csv";
-            try (BufferedReader file = new BufferedReader(new FileReader(path))) {
+            Path path1 = Path.of(path);
+            try (BufferedReader file = new BufferedReader(new FileReader(path1.toFile()))) {
                 String row = file.readLine();
 
                 List<Usuario> arquivo = new ArrayList<>();

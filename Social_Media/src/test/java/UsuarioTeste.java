@@ -5,6 +5,7 @@ import com.br.ada.modelo.UsuarioBuilder;
 import com.br.ada.utilidade.ArquivoUtil;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static com.br.ada.utilidade.SenhaUtil.checarSenha;
@@ -46,6 +47,20 @@ public class UsuarioTeste {
 //        System.out.println(resposta);
         List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo( "usuarioDatabase");
 
-        System.out.println(usuariosData.get(usuariosData.size() - 1).getId());
+//        System.out.println(usuariosData.get(usuariosData.size() - 1).getId());
+
+
+        String  saudacao = "Boa noite, ";
+        int hora = 0;
+        if(hora > 17) {
+            saudacao = "Boa noite, ";
+        } else if (hora > 11) {
+            saudacao = "Boa tarde, ";
+
+        } else if( hora > 5)
+            saudacao = "Bom dia, ";
+
+
+        System.out.println(saudacao);
     }
 }
