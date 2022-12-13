@@ -11,8 +11,11 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.br.ada.servico.PlataformaServico.obterLike;
 import static com.br.ada.servico.PostServico.fluxoMeuPost;
+import static com.br.ada.servico.UsuarioServico.exibirOpcoesDePerfil;
 import static com.br.ada.utilidade.DataUtil.formatarDataToString;
+import static com.br.ada.utilidade.GeneralUtil.isInteger;
 
 public class PlataformaRepository {
     static Scanner input = new Scanner(System.in);
@@ -34,7 +37,7 @@ public class PlataformaRepository {
         return postStream.collect(Collectors.toList());
     }
 
-    public static void  verFeed() {
+    public static void  verFeed(Usuario usuario) {
         List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo( "usuarioDatabase");
 
         List<Post> postData = new ArquivoUtil<String>().lerPost( "postDatabase");
@@ -52,11 +55,14 @@ public class PlataformaRepository {
                     "Autor: " + usuarioStream.findFirst().get().getNome() + '\n' +
                     "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
                     "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
+                    "Likes: " + post.getLikes() + '\n' +
+
                     '\n';
 
             System.out.println(feedPost);
-        }
 
+        }
+        obterLike(usuario);
     }
 
     public static void verMeusPosts(Usuario usuario) {
@@ -77,7 +83,8 @@ public class PlataformaRepository {
                         + '\n'
                 + "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
                         "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
-                        '\n';;
+                        "Likes: " + post.getLikes() + '\n' +
+                        '\n';
                 System.out.println(feedPost);
             }
 
@@ -97,6 +104,38 @@ public class PlataformaRepository {
             System.out.println(opcao);
             fluxoMeuPost(input.nextLine(), usuario, meusPosts);
         }
+    }
+
+    public static void curtirPost(String id, Usuario usuario) {
+        String likedPost = "";
+        if(isInteger(id)) {
+            List<Post> postData = new ArquivoUtil<String>().lerPost("postDatabase");
+            for(Post post: postData) {
+                if(post.getId() == Integer.parseInt(id)) {
+                    post.setLikes();
+
+                    likedPost = "Post curtido com sucesso!\n";
+                    System.out.println(likedPost);
+
+
+                    ArquivoUtil<String> arquivo = new ArquivoUtil<>();
+                    List<Post> lista = arquivo.lerPost("postDatabase");
+                    new ArquivoUtil<String>().atualizarPost(lista,"postDatabase", post);
+                    exibirOpcoesDePerfil(usuario);
+
+                }
+            }
+
+            } else {
+            System.out.println("ID inválido!");
+            exibirOpcoesDePerfil(usuario);
+        }
+        if (likedPost.equals("")) {
+            System.out.println("Post não encontrado.");
+            System.out.println();
+            exibirOpcoesDePerfil(usuario);
+        }
+
     }
 
 

@@ -86,7 +86,7 @@ public class UsuarioServico {
                 verMeusPosts(usuario);
                break;
             case "3":
-                verFeed();
+                verFeed(usuario);
                 exibirOpcoesDePerfil(usuario);
                 break;
             case "4":

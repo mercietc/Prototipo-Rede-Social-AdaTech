@@ -65,6 +65,7 @@ public class PostRepository {
                             + '\n' +
                             "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
                             "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
+                            "Likes: " + post.getLikes() + '\n' +
                             '\n';
 
                     System.out.println(feedPost);
@@ -89,11 +90,11 @@ public class PostRepository {
         switch (opcao) {
             case "1":
                 System.out.println("Insira o novo título:");
-                post.setTitulo(input.nextLine());
+                post.setTitulo(input.nextLine().replace(",", ";"));
                 break;
             case "2":
                 System.out.println("Insira o novo conteúdo");
-                post.setCorpo(input.nextLine());
+                post.setCorpo(input.nextLine().replace(",", ";"));
                 break;
             case "3":
                 exibirOpcoesDePerfil(usuario);

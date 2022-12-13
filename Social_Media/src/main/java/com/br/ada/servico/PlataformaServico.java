@@ -6,8 +6,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.br.ada.repository.PlataformaRepository.pesquisarPost;
-import static com.br.ada.repository.PlataformaRepository.pesquisarUsuario;
+import static com.br.ada.repository.PlataformaRepository.*;
 import static com.br.ada.servico.UsuarioServico.exibirOpcoesDePerfil;
 
 public class PlataformaServico {
@@ -46,6 +45,31 @@ public class PlataformaServico {
             default:
                 logger.log(Level.WARNING, "Opção inválida, insira uma opção válida!" + '\n');
                 exibirOpcoesDePerfil(usuario);
+                break;
+        }
+    }
+
+    public static void obterLike(Usuario usuario) {
+        System.out.println("Gostaria de curtir um post?");
+        String menu =  "\n" + "1 - SIM" +
+                "\n" + "2 - NÃO" + "\n";
+
+        System.out.println(menu);
+        System.out.println("Digite a opção desejada:");
+        direcionarLike(input.nextLine(), usuario);
+
+    }
+
+    public static void direcionarLike(String opcao, Usuario usuario) {
+        switch (opcao) {
+            case "1":
+                System.out.println("Digite o ID do Post");
+                curtirPost(input.nextLine(), usuario);
+            case "2":
+                exibirOpcoesDePerfil(usuario);
+            default:
+                logger.log(Level.WARNING, "Opção inválida, insira uma opção válida!" + '\n');
+                verFeed(usuario);
                 break;
         }
     }
