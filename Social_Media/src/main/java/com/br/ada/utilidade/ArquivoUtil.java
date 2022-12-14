@@ -174,6 +174,53 @@ public class ArquivoUtil<T> {
         return null;
     }
 
+    public List<Post> lerPostFavoritos (String fileName, Usuario usuario) {
+        String path = "Social_Media/src/main/resources/" + fileName + ".csv";
+        Path path1 = Path.of(path);
+        try (BufferedReader file = new BufferedReader(new FileReader(path1.toFile()))) {
+            String row = file.readLine();
+            List<Post> arquivo = new ArrayList<>();
+            List<String> linhas = new ArrayList<>();
+            while (row != null) {
+                row = file.readLine();
+                linhas.add(row);
+                if(row != null) {
+                    row = file.readLine();
+                    linhas.add(row);
+                }
+            }
+            linhas.remove(linhas.get(linhas.size() - 1));
+            for(int i = 0; i < linhas.size(); i++) {
+
+
+                String[] info = linhas.get(i).split(",");
+
+                if(usuario.getId() == Integer.parseInt(info[1])) {
+
+                    Post post =  new PostBuilder()
+                            .titulo(info[4])
+                            .corpo(info[5])
+                            .idUsuario(Integer.parseInt(info[3]))
+                            .build();
+
+                    post.setId(Integer.parseInt(info[2]));
+                    post.setDataCriacao(formatarData2(info[6]));
+                    post.setDataAtualizacao(formatarData2(info[7]));
+                    post.setLikes(Integer.parseInt(info[8]));
+                    arquivo.add(post);
+                }
+
+            }
+            return arquivo;
+
+        } catch (
+                IOException e) {
+            System.out.println("error:" + e.getMessage());
+        }
+
+        return null;
+    }
+
     public List<Post> atualizarPost (List<Post> lista, String fileName, Post post) {
         String path = "Social_Media/src/main/resources/" + fileName + ".csv";
         Path path1 = Path.of(path);

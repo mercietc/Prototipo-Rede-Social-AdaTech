@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import static com.br.ada.repository.PlataformaRepository.checarSeJaFavoritos;
 import static com.br.ada.utilidade.SenhaUtil.checarSenha;
 import static com.br.ada.utilidade.SenhaUtil.codificarSenha;
 
@@ -41,15 +42,42 @@ public class UsuarioTeste {
                         .idUsuario(novoUsuario2.getId())
                         .build();
 
-        ;
+        Post novoPost2 =
+                new PostBuilder()
+                        .titulo("SEGUNDO Post")
+                        .corpo("Como construir um build pattern")
+                        .idUsuario(novoUsuario2.getId())
+                        .build();
+
         String resposta  = checarSenha("KIDABELHA", novoUsuario2.getSenha()) ?
                 "Logado!" : "Senha incorreta!";
 //        System.out.println(resposta);
         List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo( "usuarioDatabase");
-        usuariosData.get(0).addFavoritos(novoPost);
-        System.out.println(usuariosData.get(0));
-        usuariosData.get(0).removeFavoritos(novoPost);
-        System.out.println(usuariosData.get(0));
+        novoUsuario2.addFavoritos(novoPost);
+        novoUsuario2.addFavoritos(novoPost2);
+
+//        usuariosData.get(0).removeFavoritos(novoPost);
+//        System.out.println(usuariosData.get(0));
+
+        ArquivoUtil<String> favoritosDatabase = new ArquivoUtil<>();
+        String favoritos = "";
+        for(Post post: novoUsuario2.getFavoritos()) {
+            favoritos =
+                    novoUsuario2.getNome() + "," +  novoUsuario2.getId() +
+                             "," + post.getId() + "," + post.getIdUsuario() + "," + post.getTitulo() +
+                    "," + post.getCorpo() + "," + post.getDataCriacao() + "," +post.getDataAtualizacao()
+                    + "," + post.getLikes();
+            favoritosDatabase.escreverArquivo(favoritos,"favoritosDatabase");
+
+
+
+        }
+
+
+
+
+
+
 
         String  saudacao = "Boa noite, ";
         int hora = 0;
@@ -66,5 +94,6 @@ public class UsuarioTeste {
         List<Post> postData = new ArquivoUtil<String>().lerPost( "postDatabase");
 
 //        System.out.println(postData.get(postData.size() - 1).getId() + 1);
+        checarSeJaFavoritos(novoUsuario2, "1");
     }
 }

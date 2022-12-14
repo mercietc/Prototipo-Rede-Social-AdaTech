@@ -8,8 +8,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.br.ada.repository.PlataformaRepository.verFeed;
-import static com.br.ada.repository.PlataformaRepository.verMeusPosts;
+import static com.br.ada.repository.PlataformaRepository.*;
 import static com.br.ada.repository.UsuarioRepository.*;
 import static com.br.ada.servico.PlataformaServico.obterTipoPesquisa;
 import static com.br.ada.servico.PostServico.obterPostInfo;
@@ -63,7 +62,7 @@ public class UsuarioServico {
 
            String menu =  "\n" + "1 - Criar um post" +
                    "\n" + "2 - Ver meus posts" +
-                   "\n" + "3 - Ver feed "
+                   "\n" + "3 - Ver feed"
                    + "\n" + "4 - Configurações de perfil" +
                    "\n" + "5 - Meus favoritos" +
                    "\n" + "6 - Lista de amigos" +
@@ -93,7 +92,7 @@ public class UsuarioServico {
                 exibirOpcoesDeEdicaoPerfil(usuario);
                 break;
             case "5":
-                System.out.println("favoritos");
+                exibirFavoritos(usuario);
                 break;
             case "6":
                 System.out.println("amigos");

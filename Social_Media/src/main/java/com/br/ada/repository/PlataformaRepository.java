@@ -107,10 +107,14 @@ public class PlataformaRepository {
         }
     }
 
+
+
+
     public static void curtirPost(String id, Usuario usuario) {
         String likedPost = "";
         if(isInteger(id)) {
             List<Post> postData = new ArquivoUtil<String>().lerPost("postDatabase");
+
             for(Post post: postData) {
                 if(post.getId() == Integer.parseInt(id)) {
                     post.setLikes();
@@ -139,5 +143,81 @@ public class PlataformaRepository {
 
     }
 
+    public static void adicionarPostAosFavoritos(String id, Usuario usuario) {
+        if(checarSeJaFavoritos(usuario, id)) {
+            System.err.println("Esse post já foi favoritado!");
+            System.out.println();
+            verFeed(usuario);
+        }
+        else {
+            String postFavorito = "";
+                List<Post> postData = new ArquivoUtil<String>().lerPost("postDatabase");
+                for (Post postList : postData) {
+                    if (postList.getId() == Integer.parseInt(id)) {
 
+                        usuario.addFavoritos(postList);
+                        postFavorito = "Post favoritado com sucesso!\n";
+                        System.out.println(postFavorito);
+                        System.out.println();
+                        ArquivoUtil<String> favoritosDatabase = new ArquivoUtil<>();
+                        String favoritos = "";
+                        for (Post post : usuario.getFavoritos()) {
+                            favoritos =
+                                    usuario.getNome() + "," + usuario.getId() +
+                                            "," + post.getId() + "," + post.getIdUsuario() + "," + post.getTitulo() +
+                                            "," + post.getCorpo() + "," + post.getDataCriacao() + "," + post.getDataAtualizacao()
+                                            + "," + post.getLikes();
+                            favoritosDatabase.escreverArquivo(favoritos, "favoritosDatabase");
+                        }
+
+                    }
+                }
+            }
+    }
+
+    public static boolean checarSeJaFavoritos(Usuario usuario, String id) {
+        if (isInteger(id)) {
+            List<Post> postData = new ArquivoUtil<String>()
+                    .lerPostFavoritos("favoritosDatabase", usuario);
+
+            Stream<Post> postList = postData.stream().filter(post -> post.getId() == Integer.parseInt(id));
+
+            return postList.findFirst().isPresent();
+
+        } else {
+            System.out.println("ID inválido!");
+            verFeed(usuario);
+            return false;
+
+        }
+
+    }
+
+    public static void exibirFavoritos(Usuario usuario){
+        List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo("usuarioDatabase");
+        List<Post> postData = new ArquivoUtil<String>()
+                .lerPostFavoritos("favoritosDatabase", usuario);
+        String feedPost = "";
+        if(postData.size() > 0 ) {
+
+        System.out.println("Aqui estão seus posts Favoritos:");
+        for(Post post: postData) {
+            Stream<Usuario> usuarioLogado =
+                    usuariosData.stream().filter(data -> data.getId() == post.getIdUsuario());
+            feedPost = "Id: " + post.getId() + '\n' +
+                    "Título: " + post.getTitulo() + '\n' +
+                    "Conteúdo: " + post.getCorpo() + '\n' +
+                    "Autor: " + usuarioLogado.findFirst().get().getNome()
+                    + '\n'
+                    + "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
+                    "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
+                    "Likes: " + post.getLikes() + '\n' +
+                    '\n';
+            System.out.println(feedPost);
+        }
+        } else {
+            System.out.println("Você ainda não favoritou nenhum post :(");
+        }
+        exibirOpcoesDePerfil(usuario);
+    }
 }

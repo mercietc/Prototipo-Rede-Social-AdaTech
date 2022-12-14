@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
+import static com.br.ada.repository.PlataformaRepository.verFeed;
 import static com.br.ada.servico.PostServico.opcoesPost;
 import static com.br.ada.servico.UsuarioServico.exibirOpcoesDePerfil;
 
@@ -79,6 +80,7 @@ public class PostRepository {
 
             } else {
                 opcoesPost(usuario, postEscolhido);
+                verFeed(usuario);
             }
         } else {
             System.out.println("Id inválido!");

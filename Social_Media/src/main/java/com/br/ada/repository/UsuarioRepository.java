@@ -12,8 +12,7 @@ import java.util.stream.Stream;
 
 import static com.br.ada.servico.UsuarioServico.*;
 import static com.br.ada.utilidade.DataUtil.formatarData;
-import static com.br.ada.utilidade.SenhaUtil.checarSenha;
-import static com.br.ada.utilidade.SenhaUtil.codificarSenha;
+import static com.br.ada.utilidade.SenhaUtil.*;
 
 public class UsuarioRepository {
     static Logger logger
@@ -42,8 +41,26 @@ public class UsuarioRepository {
                 iniciarAplicacao();
             } else {
                 System.out.println("Insira a senha:");
+                System.out.println("Critérios: \n"+
+                        "- Mínimo 8 caracteres; \n  " +
+                        "- Pelo menos uma letra maiúscula; \n" +
+                        "- Pelo menos um caracter especial; \n" +
+                        "- Pelo menos um número; \n" +
+                        "- Tamanho máximo: 20 caracteres. \n");
                 String senha = input.nextLine();
-                fazerCadastro(nome,dataNascimento, profissao,email,username, senha);
+                if(!checarSenhaNoPadrao(senha)) {
+                    System.err.println("A senha não segue o padrão:");
+                    System.err.println("Critérios:\n" +
+                            "- Mínimo 8 caracteres; \n" +
+                            "- Pelo menos uma letra maiúscula; \n" +
+                            "- Pelo menos um caracter especial; \n" +
+                            "- Pelo menos um número; \n" +
+                            "- Tamanho máximo: 20 caracteres. \n");
+                    iniciarAplicacao();
+                } else {
+                    fazerCadastro(nome,dataNascimento, profissao,email,username, senha);
+                }
+
             }
         }
     }
@@ -143,28 +160,42 @@ if(usuarioStream.count() > 0) {
                 break;
             case "4":
                 System.out.println("Insira o novo e-mail:");
-                if(checarSeEmailJaCadastrado(input.nextLine())) {
+                String email = input.nextLine();
+                if(checarSeEmailJaCadastrado(email)) {
                     System.err.println("E-mail já está em uso!");
                     exibirOpcoesDeEdicaoPerfil(usuario);
+                    break;
                 } else {
                     usuario.setEmail(input.nextLine());
-
+                    break;
                 }
-                break;
+
             case "5":
                 System.out.println("Insira a nova senha:");
-                usuario.setSenha(codificarSenha(input.nextLine()));
-                break;
-            case "6":
-                System.out.println("Insira o novo nome de usuário:");
-                if(checarSeUsernameJaCadastrado(input.nextLine())) {
-                    System.err.println("Nome de usuário indisponível!");
+                String senha = input.nextLine();
+
+                if(!checarSenhaNoPadrao(senha)) {
+                    System.err.println("A senha não segue o padrão");
                     exibirOpcoesDeEdicaoPerfil(usuario);
+                    break;
                 } else {
-                    usuario.setNomeUsuario(input.nextLine());
+                    usuario.setSenha(codificarSenha(senha));
+                    break;
                 }
 
-                break;
+            case "6":
+                System.out.println("Insira o novo nome de usuário:");
+                String username = input.nextLine();
+                if(checarSeUsernameJaCadastrado(username)) {
+                    System.err.println("Nome de usuário indisponível!");
+                    exibirOpcoesDeEdicaoPerfil(usuario);
+                    break;
+                } else {
+                    usuario.setNomeUsuario(username);
+                    break;
+                }
+
+
             case "7":
                 exibirOpcoesDePerfil(usuario);
                 break;

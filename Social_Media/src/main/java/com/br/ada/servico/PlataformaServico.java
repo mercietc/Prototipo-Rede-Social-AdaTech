@@ -50,23 +50,51 @@ public class PlataformaServico {
     }
 
     public static void obterLike(Usuario usuario) {
-        System.out.println("Gostaria de curtir um post?");
+        System.out.println("Gostaria de interagir com um post?");
         String menu =  "\n" + "1 - SIM" +
                 "\n" + "2 - NÃO" + "\n";
 
         System.out.println(menu);
         System.out.println("Digite a opção desejada:");
-        direcionarLike(input.nextLine(), usuario);
+        obterAcaoPost(input.nextLine(), usuario);
 
     }
+    public static void acoesPost(String opcao, Usuario usuario, String id){
+        System.out.println("Você gostaria de:");
+        String menu =  "\n" + "1 - Curtir" +
+                "\n" + "2 - Comentar" +
+                "\n" + "3 - Adicionar aos Favoritos ";
+        System.out.println(menu);
+        System.out.println();
+        System.out.println("Insira a opção desejada:");
+        direcionarAcaoPost(input.nextLine(), usuario, id);
 
-    public static void direcionarLike(String opcao, Usuario usuario) {
+    }
+    public static void obterAcaoPost(String opcao, Usuario usuario) {
         switch (opcao) {
             case "1":
                 System.out.println("Digite o ID do Post");
-                curtirPost(input.nextLine(), usuario);
+                acoesPost(opcao, usuario, input.nextLine());
             case "2":
                 exibirOpcoesDePerfil(usuario);
+            default:
+                logger.log(Level.WARNING, "Opção inválida, insira uma opção válida!" + '\n');
+                verFeed(usuario);
+                break;
+        }
+    }
+    public static void direcionarAcaoPost(String opcao, Usuario usuario, String id){
+        switch (opcao) {
+            case "1":
+                curtirPost(id, usuario);
+                break;
+            case "2":
+                System.out.println("comentários ainda não estão funcionando");
+                verFeed(usuario);
+                break;
+            case "3":
+                adicionarPostAosFavoritos(id, usuario);
+                break;
             default:
                 logger.log(Level.WARNING, "Opção inválida, insira uma opção válida!" + '\n');
                 verFeed(usuario);
