@@ -1,6 +1,8 @@
 package com.br.ada.modelo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Usuario extends Pessoa{
     private int id;
@@ -8,6 +10,10 @@ public class Usuario extends Pessoa{
     private String email;
     private String senha;
     private LocalDate dataCriacao;
+
+    private List<Post> favoritos = new ArrayList<>();
+
+    private List<Usuario> amigos = new ArrayList<>();
 
     public Usuario(){
 
@@ -64,6 +70,31 @@ public class Usuario extends Pessoa{
         this.dataCriacao = dataCriacao;
     }
 
+    public List<Post> getFavoritos() {
+        return favoritos;
+    }
+    public List<Usuario> getAmigos() {
+        return amigos;
+    }
+    public void addFavoritos(Post post) {
+        this.favoritos.add(post);
+    }
+
+    public void removeFavoritos(Post post) {
+        this.favoritos.remove(post);
+    }
+
+    public void addAmigos(Usuario amigo) {
+        this.amigos.add(amigo);
+    }
+
+    public void removeAmigos(Usuario amigo) {
+        this.amigos.remove(amigo);
+    }
+
+
+
+
     @Override
     public String toString() {
         return "Usuário [ " +
@@ -72,6 +103,7 @@ public class Usuario extends Pessoa{
                 ", Nome de usuário: '" + nomeUsuario + '\'' +
                 ", E-mail: " + email + '\'' +
                 ", Senha: '" + senha + '\'' +
+                ", Lista de favoritos: '" + favoritos + '\'' +
                 ", Criado em: " + dataCriacao +
                 " ]";
     }

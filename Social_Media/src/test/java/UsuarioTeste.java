@@ -46,9 +46,10 @@ public class UsuarioTeste {
                 "Logado!" : "Senha incorreta!";
 //        System.out.println(resposta);
         List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo( "usuarioDatabase");
-
-//        System.out.println(usuariosData.get(usuariosData.size() - 1).getId());
-
+        usuariosData.get(0).addFavoritos(novoPost);
+        System.out.println(usuariosData.get(0));
+        usuariosData.get(0).removeFavoritos(novoPost);
+        System.out.println(usuariosData.get(0));
 
         String  saudacao = "Boa noite, ";
         int hora = 0;
@@ -64,6 +65,6 @@ public class UsuarioTeste {
 //        System.out.println(saudacao);
         List<Post> postData = new ArquivoUtil<String>().lerPost( "postDatabase");
 
-        System.out.println(postData.get(postData.size() - 1).getId() + 1);
+//        System.out.println(postData.get(postData.size() - 1).getId() + 1);
     }
 }

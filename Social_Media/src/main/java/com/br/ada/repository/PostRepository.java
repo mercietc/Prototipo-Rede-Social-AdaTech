@@ -33,10 +33,11 @@ public class PostRepository {
 
         List<Post> postData = new ArquivoUtil<String>().lerPost( "postDatabase");
         post.setId(postData.get(postData.size() - 1).getId() + 1);
-
+        post.setLikes(0);
         String postCSV =
                 post.getId() + "," + post.getIdUsuario() + "," + post.getTitulo() +
-                        "," + post.getCorpo() + "," + post.getDataCriacao() + "," +post.getDataAtualizacao();
+                        "," + post.getCorpo() + "," + post.getDataCriacao() + "," +post.getDataAtualizacao()
+                        + "," + post.getLikes();
         ArquivoUtil<String> arquivo = new ArquivoUtil<>();
 
         arquivo.escreverArquivo(postCSV,

@@ -94,6 +94,7 @@ public class PlataformaRepository {
         if (feedPost.equals("")) {
             System.out.println("Você não possui posts.");
             System.out.println();
+            exibirOpcoesDePerfil(usuario);
 
         } else {
             System.out.println();
@@ -121,7 +122,7 @@ public class PlataformaRepository {
                     ArquivoUtil<String> arquivo = new ArquivoUtil<>();
                     List<Post> lista = arquivo.lerPost("postDatabase");
                     new ArquivoUtil<String>().atualizarPost(lista,"postDatabase", post);
-                    exibirOpcoesDePerfil(usuario);
+                    verFeed(usuario);
 
                 }
             }
