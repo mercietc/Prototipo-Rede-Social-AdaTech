@@ -68,7 +68,7 @@ public class UsuarioServico {
                    "\n" + "5 - Meus favoritos" +
                    "\n" + "6 - Lista de amigos" +
                    "\n" + "7 - Pesquisar" +
-                   "\n" + "8 - Notifições" +
+                   "\n" + "8 - Notificações" +
                    "\n" + "9 - Deslogar " + "\n";
 
         System.out.println(menu);
