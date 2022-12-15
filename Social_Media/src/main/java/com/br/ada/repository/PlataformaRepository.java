@@ -4,6 +4,7 @@ import com.br.ada.modelo.Post;
 import com.br.ada.modelo.Usuario;
 import com.br.ada.utilidade.ArquivoUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.br.ada.servico.PlataformaServico.obterLike;
+import static com.br.ada.servico.PlataformaServico.obterRemoverFavoritos;
 import static com.br.ada.servico.PostServico.fluxoMeuPost;
 import static com.br.ada.servico.UsuarioServico.exibirOpcoesDePerfil;
 import static com.br.ada.utilidade.DataUtil.formatarDataToString;
@@ -163,11 +165,10 @@ public class PlataformaRepository {
                         String favoritos = "";
                         for (Post post : usuario.getFavoritos()) {
                             favoritos =
-                                    usuario.getNome() + "," + usuario.getId() +
-                                            "," + post.getId() + "," + post.getIdUsuario() + "," + post.getTitulo() +
+                                    post.getId() + "," + post.getIdUsuario() + "," + post.getTitulo() +
                                             "," + post.getCorpo() + "," + post.getDataCriacao() + "," + post.getDataAtualizacao()
                                             + "," + post.getLikes();
-                            favoritosDatabase.escreverArquivo(favoritos, "favoritosDatabase");
+                            favoritosDatabase.escreverArquivo(favoritos, usuario.getNomeUsuario()+"favoritos");
                         }
 
                     }
@@ -175,10 +176,35 @@ public class PlataformaRepository {
             }
     }
 
+    public static void removerPostDosFavoritos(String id, Usuario usuario) {
+        if (!checarSeJaFavoritos(usuario, id)) {
+            System.err.println("Não foi encontrado um post com esse Id em seus favoritos!");
+            System.out.println();
+            exibirOpcoesDePerfil(usuario);
+        } else {
+
+            ArquivoUtil<String> arquivo = new ArquivoUtil<>();
+            List<Post> lista = arquivo.lerPost(usuario.getNomeUsuario()+"favoritos");
+            Stream<Post> postfilter = lista.stream().filter(data -> data.getId() == Integer.parseInt(id));
+            Post post = postfilter.findFirst().get();
+
+            for (int i = 0; i < lista.size(); i++) {
+                if (lista.get(i).getId() == post.getId()) {
+                    lista.remove(lista.get(i));
+                }
+            }
+            new ArquivoUtil<String>().deletarPost(lista, usuario.getNomeUsuario()+"favoritos", post);
+
+            System.out.println("Post deletado com sucesso!");
+            exibirOpcoesDePerfil(usuario);
+        }
+
+    }
+
     public static boolean checarSeJaFavoritos(Usuario usuario, String id) {
         if (isInteger(id)) {
             List<Post> postData = new ArquivoUtil<String>()
-                    .lerPostFavoritos("favoritosDatabase", usuario);
+                    .lerPost(usuario.getNomeUsuario()+"favoritos");
 
             Stream<Post> postList = postData.stream().filter(post -> post.getId() == Integer.parseInt(id));
 
@@ -194,30 +220,45 @@ public class PlataformaRepository {
     }
 
     public static void exibirFavoritos(Usuario usuario){
-        List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo("usuarioDatabase");
-        List<Post> postData = new ArquivoUtil<String>()
-                .lerPostFavoritos("favoritosDatabase", usuario);
-        String feedPost = "";
-        if(postData.size() > 0 ) {
-
-        System.out.println("Aqui estão seus posts Favoritos:");
-        for(Post post: postData) {
-            Stream<Usuario> usuarioLogado =
-                    usuariosData.stream().filter(data -> data.getId() == post.getIdUsuario());
-            feedPost = "Id: " + post.getId() + '\n' +
-                    "Título: " + post.getTitulo() + '\n' +
-                    "Conteúdo: " + post.getCorpo() + '\n' +
-                    "Autor: " + usuarioLogado.findFirst().get().getNome()
-                    + '\n'
-                    + "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
-                    "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
-                    "Likes: " + post.getLikes() + '\n' +
-                    '\n';
-            System.out.println(feedPost);
-        }
-        } else {
+        File file = new File("Social_Media/src/main/resources/" + usuario.getNomeUsuario()+"favoritos" + ".csv");
+        if(!file.exists()) {
+            ArquivoUtil<String> favoritosDatabase = new ArquivoUtil<>();
+            favoritosDatabase.escreverArquivo("ID,ID DO USUARIO,TITULO,CORPO,DATA DE CRIACAO,DATA DE ATUALIZACAO,LIKES",
+                    usuario.getNomeUsuario()+"favoritos");
             System.out.println("Você ainda não favoritou nenhum post :(");
+            System.out.println();
+            exibirOpcoesDePerfil(usuario);
+        } else {
+            List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo("usuarioDatabase");
+            List<Post> postData = new ArquivoUtil<String>()
+                    .lerPost(usuario.getNomeUsuario()+"favoritos");
+            String feedPost = "";
+            if(postData.size() > 0 ) {
+
+                System.out.println("Aqui estão seus posts Favoritos:");
+                for(Post post: postData) {
+                    Stream<Usuario> usuarioLogado =
+                            usuariosData.stream().filter(data -> data.getId() == post.getIdUsuario());
+                    feedPost = "Id: " + post.getId() + '\n' +
+                            "Título: " + post.getTitulo() + '\n' +
+                            "Conteúdo: " + post.getCorpo() + '\n' +
+                            "Autor: " + usuarioLogado.findFirst().get().getNome()
+                            + '\n'
+                            + "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
+                            "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
+                            "Likes: " + post.getLikes() + '\n' +
+                            '\n';
+                    System.out.println(feedPost);
+                    obterRemoverFavoritos(usuario);
+                }
+            } else {
+                System.out.println("Você ainda não favoritou nenhum post :(");
+                exibirOpcoesDePerfil(usuario);
+
+            }
+
+
         }
-        exibirOpcoesDePerfil(usuario);
+
     }
 }

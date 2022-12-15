@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static com.br.ada.repository.PlataformaRepository.checarSeJaFavoritos;
+import static com.br.ada.repository.PlataformaRepository.removerPostDosFavoritos;
 import static com.br.ada.utilidade.SenhaUtil.checarSenha;
 import static com.br.ada.utilidade.SenhaUtil.codificarSenha;
 
@@ -52,9 +53,9 @@ public class UsuarioTeste {
         String resposta  = checarSenha("KIDABELHA", novoUsuario2.getSenha()) ?
                 "Logado!" : "Senha incorreta!";
 //        System.out.println(resposta);
-        List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo( "usuarioDatabase");
-        novoUsuario2.addFavoritos(novoPost);
-        novoUsuario2.addFavoritos(novoPost2);
+//        List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo( "usuarioDatabase");
+//        novoUsuario2.addFavoritos(novoPost);
+//        novoUsuario2.addFavoritos(novoPost2);
 
 //        usuariosData.get(0).removeFavoritos(novoPost);
 //        System.out.println(usuariosData.get(0));
@@ -95,5 +96,7 @@ public class UsuarioTeste {
 
 //        System.out.println(postData.get(postData.size() - 1).getId() + 1);
         checarSeJaFavoritos(novoUsuario2, "1");
+
+        removerPostDosFavoritos("1", novoUsuario2);
     }
 }

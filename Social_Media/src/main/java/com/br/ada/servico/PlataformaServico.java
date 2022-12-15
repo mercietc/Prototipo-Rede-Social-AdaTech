@@ -70,6 +70,31 @@ public class PlataformaServico {
         direcionarAcaoPost(input.nextLine(), usuario, id);
 
     }
+
+    public static void obterRemoverFavoritos( Usuario usuario){
+        System.out.println("Você gostaria de remover um post dos favoritos?:");
+        String menu =  "\n" + "1 - SIM" +
+                "\n" + "2 - NÃO";
+
+        System.out.println(menu);
+        System.out.println();
+        System.out.println("Insira a opção desejada:");
+        switch(input.nextLine()){
+            case "1":
+                System.out.println("Insira o ID do post que deseja remover:");
+                removerPostDosFavoritos(input.nextLine(), usuario);
+                break;
+            case "2":
+                exibirOpcoesDePerfil(usuario);
+                break;
+            default:
+                logger.log(Level.WARNING, "Opção inválida, insira uma opção válida!" + '\n');
+                exibirOpcoesDePerfil(usuario);
+                break;
+        }
+
+
+    }
     public static void obterAcaoPost(String opcao, Usuario usuario) {
         switch (opcao) {
             case "1":
