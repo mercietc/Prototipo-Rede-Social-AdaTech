@@ -1,33 +1,22 @@
 package com.br.ada.modelo;
-
 import java.time.LocalDate;
 
 public abstract class Pessoa {
-    private int id;
     private String nome;
     private LocalDate dataNascimento;
     private String profissao;
-    private LocalDate dataCriacao;
 
-    public Pessoa(){
+    protected Pessoa(){
 
     }
 
-    public Pessoa(int id, String nome, LocalDate dataNascimento, String profissao, LocalDate dataCriacao) {
-        this.id = id;
+    protected Pessoa(String nome, LocalDate dataNascimento, String profissao) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.profissao = profissao;
-        this.dataCriacao = dataCriacao;
+
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -53,22 +42,13 @@ public abstract class Pessoa {
         this.profissao = profissao;
     }
 
-    public LocalDate getDataCriacao() {
-        return dataCriacao;
-    }
 
-    public void setDataCriacao(LocalDate dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
 
     @Override
     public String toString() {
-        return "Pessoa{" +
-                "Id: " + id +
-                ", Nome: '" + nome + '\'' +
+        return
+                "Nome: '" + nome + '\'' +
                 ", Data de nascimento: " + dataNascimento +
-                ", Profissão: '" + profissao + '\'' +
-                ", Criado em: " + dataCriacao +
-                '}';
+                ", Profissão: '" + profissao + "'";
     }
 }

@@ -1,8 +1,14 @@
 package com.br.ada.modelo;
 
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Post implements Comentario{
+    Logger logger
+            = Logger.getLogger(
+            Post.class.getName());
+
     private int id;
     private String titulo;
     private String corpo;
@@ -27,6 +33,7 @@ public class Post implements Comentario{
     }
 
     public void setId(int id) {
+        this.dataAtualizacao = LocalDate.now();
         this.id = id;
     }
 
@@ -35,6 +42,7 @@ public class Post implements Comentario{
     }
 
     public void setTitulo(String titulo) {
+        this.dataAtualizacao = LocalDate.now();
         this.titulo = titulo;
     }
 
@@ -43,6 +51,7 @@ public class Post implements Comentario{
     }
 
     public void setCorpo(String corpo) {
+        this.dataAtualizacao = LocalDate.now();
         this.corpo = corpo;
     }
 
@@ -51,6 +60,7 @@ public class Post implements Comentario{
     }
 
     public void setIdUsuario(int idUsuario) {
+        this.dataAtualizacao = LocalDate.now();
         this.idUsuario = idUsuario;
     }
 
@@ -72,13 +82,31 @@ public class Post implements Comentario{
 
     @Override
     public String toString() {
-        return "Post{" +
+        return "Post [ " +
                 "Id: " + id +
                 ", Título: '" + titulo + '\'' +
-                ", Corpo: " + corpo + '\'' +
+                ", Corpo: '" + corpo + '\'' +
                 ", Id do usuário: " + idUsuario +
                 ", Criado em: " + dataCriacao +
                 ", Atualizado em: " + dataAtualizacao +
-                '}';
+                " ]";
+    }
+
+    @Override
+    public void criarComentario() {
+String comentario = "criar";
+        logger.log(Level.INFO, comentario);
+    }
+
+    @Override
+    public void atualizarComentario() {
+        String comentario = "atualizar";
+        logger.log(Level.INFO, comentario);
+    }
+
+    @Override
+    public void deletarComentario() {
+        String comentario = "deletar";
+        logger.log(Level.INFO, comentario);
     }
 }
