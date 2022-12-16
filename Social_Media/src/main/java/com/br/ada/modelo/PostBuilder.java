@@ -12,6 +12,10 @@ public class PostBuilder {
 
     private LocalDate dataAtualizacao;
 
+    private int likes = 0;
+
+
+
 
 
 
@@ -30,6 +34,8 @@ public class PostBuilder {
         this.titulo = titulo;
         return this;
     }
+
+
 
     public PostBuilder corpo(String corpo) {
         this.corpo = corpo;
@@ -51,6 +57,7 @@ public class PostBuilder {
     }
 
         public Post build(){
+
         id();
         dataCriacao();
         dataAtualizacao();

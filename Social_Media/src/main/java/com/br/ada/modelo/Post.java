@@ -13,8 +13,13 @@ public class Post implements Comentario{
     private String titulo;
     private String corpo;
     private int idUsuario;
+
     private LocalDate dataCriacao;
     private LocalDate dataAtualizacao;
+
+    private int likes = 0;
+
+
 
     public Post(){
 
@@ -32,7 +37,17 @@ public class Post implements Comentario{
         return id;
     }
 
-    public void setId(int id) {
+    public int getLikes() {
+        return likes;
+    }
+    public void setLikes() {
+        this.likes += 1;
+    }
+
+    public void setLikes(int like) {
+        this.likes = like;
+    }
+        public void setId(int id) {
         this.dataAtualizacao = LocalDate.now();
         this.id = id;
     }

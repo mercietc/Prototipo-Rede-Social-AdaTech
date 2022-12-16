@@ -84,6 +84,11 @@ public class SenhaUtil {
                         return "(;" + codeString + codeString1 + codeString3;
                 }
         }
+
+        public static boolean checarSenhaNoPadrao(String senha) {
+                boolean isMatch = senha.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$");
+                return isMatch;
+        }
 }
 
 
