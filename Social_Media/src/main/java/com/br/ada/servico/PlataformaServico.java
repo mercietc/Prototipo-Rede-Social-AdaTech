@@ -16,13 +16,19 @@ public class PlataformaServico {
     static Scanner input = new Scanner(System.in);
 
     public static void obterTipoPesquisa(Usuario usuario) {
-        String menu =  "\n" + "1 - Pesquisar Posts" +
-                "\n" + "2 - Pesquisar Usuários" +
-                "\n" + "3 - Voltar "
-                + "\n";
+        String menu =
+                " ----------------------------------------------------\n" +
+                "|                   TIPO DE PESQUISA                 |\n" +
+                "|____________________________________________________|\n" +
+                "|                                                    |\n" +
+                "|     Que tipo de pesquisa você gostaria de fazer?   |\n" +
+                "|                                                    |\n" +
+                "|    1 - Pesquisar Posts                             |\n" +
+                "|    2 - Pesquisar Usuários                          |\n" +
+                "|    3 - Voltar                                      |\n" +
+                "|____________________________________________________|\n";
 
         System.out.println(menu);
-
         direcionarPesquisa(input.nextLine(), usuario);
     }
 
@@ -50,9 +56,15 @@ public class PlataformaServico {
     }
 
     public static void obterLike(Usuario usuario) {
-        System.out.println("Gostaria de interagir com um post?");
-        String menu =  "\n" + "1 - SIM" +
-                "\n" + "2 - NÃO" + "\n";
+        String menu =
+                " ----------------------------------------------------\n" +
+                "|                      INTERAÇÃO                     |\n" +
+                "|____________________________________________________|\n" +
+                "|                                                    |\n" +
+                "|         Gostaria de interagir com um post?         |\n" +
+                "|                                                    |\n" +
+                "|             1 - SIM           2 - NÃO              |\n" +
+                "|____________________________________________________|\n";
 
         System.out.println(menu);
         System.out.println("Digite a opção desejada:");
@@ -60,10 +72,16 @@ public class PlataformaServico {
 
     }
     public static void acoesPost(String opcao, Usuario usuario, String id){
-        System.out.println("Você gostaria de:");
-        String menu =  "\n" + "1 - Curtir" +
-                "\n" + "2 - Comentar" +
-                "\n" + "3 - Adicionar aos Favoritos ";
+        String menu =
+                        " ----------------------------------------------------\n" +
+                        "|                         POST                       |\n" +
+                        "|____________________________________________________|\n" +
+                        "|                                                    |\n" +
+                        "|                   Você gostaria de:                |\n" +
+                        "|                                                    |\n" +
+                        "| 1- Curtir 2- Comentar  3- Adicionar aos Favoritos  |\n" +
+                        "|____________________________________________________|\n";
+
         System.out.println(menu);
         System.out.println();
         System.out.println("Insira a opção desejada:");
@@ -72,9 +90,15 @@ public class PlataformaServico {
     }
 
     public static void obterRemoverFavoritos( Usuario usuario){
-        System.out.println("Você gostaria de remover um post dos favoritos?:");
-        String menu =  "\n" + "1 - SIM" +
-                "\n" + "2 - NÃO";
+        String menu =
+                        " ----------------------------------------------------\n" +
+                        "|                      FAV0RITOS                     |\n" +
+                        "|____________________________________________________|\n" +
+                        "|                                                    |\n" +
+                        "|  Você gostaria de remover um post dos favoritos?   |\n" +
+                        "|                                                    |\n" +
+                        "|             1 - SIM           2 - NÃO              |\n" +
+                        "|____________________________________________________|\n";
 
         System.out.println(menu);
         System.out.println();
@@ -114,7 +138,7 @@ public class PlataformaServico {
                 curtirPost(id, usuario);
                 break;
             case "2":
-                System.out.println("comentários ainda não estão funcionando");
+                comentarPost(id,usuario);
                 verFeed(usuario);
                 break;
             case "3":

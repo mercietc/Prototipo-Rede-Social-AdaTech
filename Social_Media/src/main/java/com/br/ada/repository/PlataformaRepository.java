@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.br.ada.repository.PostRepository.logger;
 import static com.br.ada.servico.PlataformaServico.obterLike;
 import static com.br.ada.servico.PlataformaServico.obterRemoverFavoritos;
 import static com.br.ada.servico.PostServico.fluxoMeuPost;
@@ -144,6 +146,41 @@ public class PlataformaRepository {
         }
 
     }
+
+    public static void comentarPost(String id, Usuario usuario) {
+
+        String comentedPost = "";
+        if(isInteger(id)) {
+            List<Post> postData = new ArquivoUtil<String>().lerPost("postDatabase");
+
+            for(Post post: postData) {
+                if(post.getId() == Integer.parseInt(id)) {
+                    post.criarComentario();
+
+                    comentedPost = "Post comentado com sucesso!\n";
+                    System.out.println(comentedPost);
+
+
+                    ArquivoUtil<String> arquivo = new ArquivoUtil<>();
+                    List<Post> lista = arquivo.lerPost("postDatabase");
+                    new ArquivoUtil<String>().atualizarPost(lista,"postDatabase", post);
+                    verFeed(usuario);
+
+                }
+            }
+        } else {
+            System.out.println("ID inválido!");
+            exibirOpcoesDePerfil(usuario);
+        }
+        if (comentedPost.equals("")) {
+            System.out.println("Post não encontrado.");
+            System.out.println();
+            exibirOpcoesDePerfil(usuario);
+        }
+
+    }
+
+
 
     public static void adicionarPostAosFavoritos(String id, Usuario usuario) {
         if(checarSeJaFavoritos(usuario, id)) {

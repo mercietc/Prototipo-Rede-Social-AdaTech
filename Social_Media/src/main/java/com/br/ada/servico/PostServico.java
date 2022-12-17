@@ -22,7 +22,7 @@ public class PostServico {
     static Logger logger
             = Logger.getLogger(
             PostServico.class.getName());
-    //implementacao dos metodos genericos
+
     public static void obterPostInfo(Usuario usuario){
         Scanner in = new Scanner(System.in);
         logger.log(Level.INFO,"\n------------------------ Novo Post ------------------------");
@@ -61,12 +61,19 @@ public class PostServico {
 
 
     public static void opcoesPost(Usuario usuario, Post post) {
-        System.out.println("O que deseja fazer:");
-        String menu =  "\n" + "1 - Editar Post" +
-                "\n" + "2 - Excluir Post" +
-                "\n" + "3 - Ver Comentários" +
-                "\n" + "4 - Voltar ao Menu Principal "
-                + "\n";
+        String menu =
+                " -----------------------------------\n" +
+                "|           OPÇÕES DE POST          |\n" +
+                "|___________________________________|\n" +
+                "|                                   |\n" +
+                "|     O que deseja fazer?           |\n" +
+                "|                                   |\n" +
+                "|    1 - Editar Post                |\n" +
+                "|    2 - Excluir Post               |\n" +
+                "|    3 - Ver Comentários            |\n" +
+                "|    4 - Voltar ao Menu Principal   |\n" +
+                "|___________________________________|\n";
+
         System.out.println(menu);
         System.out.println("Digite a opção desejada:");
         switch (input.nextLine()) {
@@ -90,10 +97,17 @@ public class PostServico {
     }
 
     public static void exibirOpcoesDeEdicaoPost(Post post, Usuario usuario){
-        System.out.println("Insira a opção que você gostaria de editar:");
-        String menu =  "\n" + "1 - Título" +
-                "\n" + "2 - Conteúdo" +
-                "\n" + "3 - Voltar";
+        String menu =
+                " ----------------------------------------------------\n" +
+                "|               OPÇÕES DE EDIÇÃO DE POST             |\n" +
+                "|____________________________________________________|\n" +
+                "|                                                    |\n" +
+                "|     Insira a opção que você gostaria de editar:    |\n" +
+                "|                                                    |\n" +
+                "|    1 - Título                                      |\n" +
+                "|    2 - Conteúdo                                    |\n" +
+                "|    3 - Voltar                                      |\n" +
+                "|____________________________________________________|\n";
 
         System.out.println(menu);
         editarPost(post, input.nextLine(), usuario);
