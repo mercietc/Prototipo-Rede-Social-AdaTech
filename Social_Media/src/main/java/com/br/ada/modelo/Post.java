@@ -1,6 +1,8 @@
 package com.br.ada.modelo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +21,7 @@ public class Post implements Comentario{
     private LocalDate dataAtualizacao;
 
     private int likes = 0;
-
+    private List<String> comentarios = new ArrayList<>();
 
 
     public Post(){
@@ -95,6 +97,10 @@ public class Post implements Comentario{
     public void setDataAtualizacao(LocalDate dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
+    public List<String> getComentarios() {
+        return comentarios;
+    }
+    public void removeComentarios(String comentario) {this.comentarios.remove(comentario);}
 
     @Override
     public String toString() {
@@ -105,6 +111,7 @@ public class Post implements Comentario{
                 ", Id do usuário: " + idUsuario +
                 ", Criado em: " + dataCriacao +
                 ", Atualizado em: " + dataAtualizacao +
+                ", Comentários do post: " + comentarios +  '\'' +
                 " ]";
     }
 
@@ -113,6 +120,7 @@ public class Post implements Comentario{
         Scanner in = new Scanner(System.in);
         System.out.println("Insira o comentário: ");
         String conteudoComentario = in.nextLine();
+        this.comentarios.add(conteudoComentario);
 
         String comentario = "criar";
         logger.log(Level.INFO, comentario);
@@ -121,8 +129,9 @@ public class Post implements Comentario{
     @Override
     public void atualizarComentario() {
         Scanner in = new Scanner(System.in);
-        System.out.println("Insira o novo comentário: ");
+        System.out.println("Edite o comentário: ");
         String conteudoComentario = in.nextLine();
+        this.comentarios.add(conteudoComentario);
 
         String comentario = "atualizar";
         logger.log(Level.INFO, comentario);
@@ -130,9 +139,10 @@ public class Post implements Comentario{
 
     @Override
     public void deletarComentario() {
-        String conteudoComentario = "";
+        String comentario = "";
+        removeComentarios(comentario);
 
-        String comentario = "deletar";
+        comentario = "deletar";
         logger.log(Level.INFO, comentario);
     }
 }

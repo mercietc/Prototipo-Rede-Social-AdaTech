@@ -60,6 +60,7 @@ public class PlataformaRepository {
                     "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
                     "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
                     "Likes: " + post.getLikes() + '\n' +
+                    "Comentários: " + post.getComentarios() + '\n' +
 
                     '\n';
 
@@ -146,7 +147,7 @@ public class PlataformaRepository {
         }
 
     }
-
+/**
     public static void comentarPost(String id, Usuario usuario) {
 
         String comentedPost = "";
@@ -180,7 +181,32 @@ public class PlataformaRepository {
 
     }
 
+    public static void removerComentarioPost(String id, Usuario usuario, Post post, String comentario) {
+        if (usuario.getId() != post.getIdUsuario()) {
+            System.err.println("Somente o dono do comentário pode removê-lo!");
+            System.out.println();
+            exibirOpcoesDePerfil(usuario);
+        } else {
 
+            ArquivoUtil<String> arquivo = new ArquivoUtil<>();
+            List<Post> lista = arquivo.lerPost(usuario.getNomeUsuario()+"comentarios");
+            Stream<Post> postfilter = lista.stream().filter(data -> data.getId() == Integer.parseInt(id));
+            post = postfilter.findFirst().get();
+
+            for (int i = 0; i < lista.size(); i++) {
+                if (lista.get(i).getId() == post.getId()) {
+                    lista.remove(lista.get(i));
+                }
+            }
+            new ArquivoUtil<String>().deletarComentario(lista, usuario.getNomeUsuario()+"comentarios", comentario);
+
+            System.out.println("Post deletado com sucesso!");
+            exibirOpcoesDePerfil(usuario);
+        }
+
+    }
+
+*/
 
     public static void adicionarPostAosFavoritos(String id, Usuario usuario) {
         if(checarSeJaFavoritos(usuario, id)) {

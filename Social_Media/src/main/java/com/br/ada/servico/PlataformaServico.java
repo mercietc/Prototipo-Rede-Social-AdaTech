@@ -1,5 +1,6 @@
 package com.br.ada.servico;
 
+import com.br.ada.modelo.Post;
 import com.br.ada.modelo.Usuario;
 
 import java.util.Scanner;
@@ -73,14 +74,17 @@ public class PlataformaServico {
     }
     public static void acoesPost(String opcao, Usuario usuario, String id){
         String menu =
-                        " ----------------------------------------------------\n" +
-                        "|                         POST                       |\n" +
-                        "|____________________________________________________|\n" +
-                        "|                                                    |\n" +
-                        "|                   Você gostaria de:                |\n" +
-                        "|                                                    |\n" +
-                        "| 1- Curtir 2- Comentar  3- Adicionar aos Favoritos  |\n" +
-                        "|____________________________________________________|\n";
+                        " --------------------------------------------------\n" +
+                        "|                         POST                     |\n" +
+                        "|__________________________________________________|\n" +
+                        "|                                                  |\n" +
+                        "|                 Você gostaria de:                |\n" +
+                        "|                                                  |\n" +
+                        "|         1- Curtir                                |\n" +
+                        "|         2- Comentar                              |\n" +
+                        "|         3- Remover comentário                    |\n" +
+                        "|         4- Adicionar post aos Favoritos          |\n" +
+                        "|__________________________________________________|\n";
 
         System.out.println(menu);
         System.out.println();
@@ -138,10 +142,13 @@ public class PlataformaServico {
                 curtirPost(id, usuario);
                 break;
             case "2":
-                comentarPost(id,usuario);
+                //comentarPost(id,usuario);
                 verFeed(usuario);
                 break;
             case "3":
+                //removerComentarioPost(id,usuario,post);
+                verFeed(usuario);
+            case "4":
                 adicionarPostAosFavoritos(id, usuario);
                 break;
             default:

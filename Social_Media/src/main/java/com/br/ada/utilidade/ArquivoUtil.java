@@ -159,6 +159,7 @@ public class ArquivoUtil<T> {
                 post.setDataCriacao(formatarData2(info[4]));
                 post.setDataAtualizacao(formatarData2(info[5]));
                 post.setLikes(Integer.parseInt(info[6]));
+                post.criarComentario();
                 arquivo.add(post);
 
             }
@@ -179,7 +180,7 @@ public class ArquivoUtil<T> {
         limparArquivo(fileName);
 
         try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path1.toFile(), true))) {
-            csvWriter.write("ID,ID DO USUARIO,TITULO,CORPO,DATA DE CRIACAO,DATA DE ATUALIZACAO,LIKES\n");
+            csvWriter.write("ID,ID DO USUARIO,TITULO,CORPO,DATA DE CRIACAO,DATA DE ATUALIZACAO,LIKES,COMENTARIOS\n");
             for(int i = 0; i < lista.size(); i++) {
                 if (lista.get(i).getId() == post.getId()) {
                     lista.set(i, post);
@@ -188,7 +189,7 @@ public class ArquivoUtil<T> {
                 String stringPost = lista.get(i).getId() + "," + lista.get(i).getIdUsuario() + "," +
                         lista.get(i).getTitulo() + "," + lista.get(i).getCorpo() + "," +
                         lista.get(i).getDataCriacao() + "," + lista.get(i).getDataAtualizacao() +
-                "," + lista.get(i).getLikes();
+                "," + lista.get(i).getLikes() + "," + lista.get(i).getComentarios();
                 csvWriter.write(stringPost);
                 csvWriter.newLine();
                 csvWriter.flush();
@@ -209,12 +210,12 @@ public class ArquivoUtil<T> {
         limparArquivo(fileName);
 
         try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path1.toFile(), true))) {
-            csvWriter.write("ID,ID DO USUARIO,TITULO,CORPO,DATA DE CRIACAO,DATA DE ATUALIZACAO,LIKES\n");
+            csvWriter.write("ID,ID DO USUARIO,TITULO,CORPO,DATA DE CRIACAO,DATA DE ATUALIZACAO,LIKES,COMENTARIOS\n");
             for(int i = 0; i < lista.size(); i++) {
                 String stringPost = lista.get(i).getId() + "," + lista.get(i).getIdUsuario() + "," +
                         lista.get(i).getTitulo() + "," + lista.get(i).getCorpo() + "," +
                         lista.get(i).getDataCriacao() + "," + lista.get(i).getDataAtualizacao() + "," +
-                        lista.get(i).getLikes();
+                        lista.get(i).getLikes()  + "," + lista.get(i).getComentarios();
                 csvWriter.write(stringPost);
                 csvWriter.newLine();
                 csvWriter.flush();
@@ -227,4 +228,5 @@ public class ArquivoUtil<T> {
 
         return null;
     }
+
 }
