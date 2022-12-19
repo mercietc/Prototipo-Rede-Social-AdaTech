@@ -104,6 +104,7 @@ public class Usuario extends Pessoa{
                 ", E-mail: " + email + '\'' +
                 ", Senha: '" + senha + '\'' +
                 ", Lista de favoritos: '" + favoritos + '\'' +
+                ", Lista de amigos: '" + amigos + '\'' +
                 ", Criado em: " + dataCriacao +
                 " ]";
     }

@@ -3,7 +3,6 @@ package com.br.ada.repository;
 import com.br.ada.modelo.Post;
 import com.br.ada.modelo.Usuario;
 import com.br.ada.utilidade.ArquivoUtil;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,8 +10,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import static com.br.ada.servico.PlataformaServico.obterLike;
-import static com.br.ada.servico.PlataformaServico.obterRemoverFavoritos;
+
+import static com.br.ada.servico.PlataformaServico.*;
 import static com.br.ada.servico.PostServico.fluxoMeuPost;
 import static com.br.ada.servico.UsuarioServico.exibirOpcoesDePerfil;
 import static com.br.ada.utilidade.DataUtil.formatarDataToString;
@@ -36,6 +35,29 @@ public class PlataformaRepository {
                         data.getCorpo().toUpperCase().contains(post.toUpperCase()));
 
         return postStream.collect(Collectors.toList());
+    }
+
+    public static void  verUsuarios(Usuario usuario) {
+        List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo( "usuarioDatabase");
+        Stream<Usuario> usuarioStream = usuariosData.stream();
+        Stream<Usuario> sorted = usuarioStream.sorted(Comparator.comparing(Usuario::getId));
+        List<Usuario> usuarioListSort = sorted.collect(Collectors.toList());
+
+        for(Usuario user : usuarioListSort) {
+
+            String verUsuarioFeed =
+                    "Id: " + user.getId() + '\n' +
+                    "Nome: " + user.getNomeUsuario() + '\n' +
+                    "Email: " + user.getEmail() + '\n' +
+                    "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
+                    "Lista de favoritos: " + user.getFavoritos() + '\n' +
+                    "Lista de amigos: " + user.getAmigos() + '\n' +
+                    '\n';
+
+            System.out.println(verUsuarioFeed);
+
+        }
+//        adicionarAmigo(id, usuario);
     }
 
     public static void  verFeed(Usuario usuario) {
@@ -239,9 +261,8 @@ public class PlataformaRepository {
                     feedPost = "Id: " + post.getId() + '\n' +
                             "Título: " + post.getTitulo() + '\n' +
                             "Conteúdo: " + post.getCorpo() + '\n' +
-                            "Autor: " + usuarioLogado.findFirst().get().getNome()
-                            + '\n'
-                            + "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
+                            "Autor: " + usuarioLogado.findFirst().get().getNome() + '\n' +
+                            "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
                             "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
                             "Likes: " + post.getLikes() + '\n' +
                             '\n';
@@ -256,5 +277,124 @@ public class PlataformaRepository {
 
         }
 
+    }
+
+    public static void adicionarAmigo(String id, Usuario usuario) {
+        if(checarSeAmigoJaAdicionado(usuario, id)) {
+            System.err.println("Vocês já são amigos!");
+            System.out.println();
+            verFeed(usuario);
+        }
+        else {
+            List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo("usuarioDatabase");
+            List<Usuario> usuarioData = new ArquivoUtil<String>().lerArquivo(usuario.getNomeUsuario()+"amigos");
+
+            String usuarioAmigo = "";
+
+            for (Usuario listaAmigos : usuariosData) {
+                if (listaAmigos.getId() == Integer.parseInt(id)) {
+                    usuario.addAmigos(listaAmigos);
+                    usuarioAmigo = "Amigo adicionado com sucesso!\n";
+                    System.out.println(usuarioAmigo);
+                    System.out.println();
+                    ArquivoUtil<String> amigosDatabase = new ArquivoUtil<>();
+                    String amigos = "";
+                    for (Usuario user : usuario.getAmigos()) {
+                        amigos =
+                                user.getId() + "," + user.getNomeUsuario() + "," + user.getEmail() +
+                                        "," + user.getSenha() + "," + user.getDataCriacao() + "," + user.getFavoritos()
+                                        + "," + user.getAmigos();
+                        amigosDatabase.escreverArquivo(amigos, usuario.getNomeUsuario()+"amigos");
+                    }
+                }
+            }
+        }
+
+    }
+
+    public static void removerAmigo(String id, Usuario usuario) {
+        if (!checarSeAmigoJaAdicionado(usuario, id)) {
+            System.err.println("Não foi encontrado um usuário com esse Id na sua lista de amigos!");
+            System.out.println();
+            exibirOpcoesDePerfil(usuario);
+        } else {
+
+            ArquivoUtil<String> arquivo = new ArquivoUtil<>();
+            List<Usuario> lista = arquivo.lerArquivo(usuario.getNomeUsuario()+"amigos");
+            Stream<Usuario> userfilter = lista.stream().filter(data -> data.getId() == Integer.parseInt(id));
+            Usuario user = userfilter.findFirst().get();
+
+            for (int i = 0; i < lista.size(); i++) {
+                if (lista.get(i).getId() == user.getId()) {
+                    lista.remove(lista.get(i));
+                }
+            }
+            //new ArquivoUtil<String>().deletarAmigo(lista, usuario.getNomeUsuario()+"amigos", user);
+
+            System.out.println("Amizade desfeita.");
+            exibirOpcoesDePerfil(usuario);
+        }
+
+    }
+
+
+    public static boolean checarSeAmigoJaAdicionado(Usuario usuario, String id) {
+        if (isInteger(id)) {
+            List<Usuario> usuarioData = new ArquivoUtil<String>()
+                    .lerArquivo(usuario.getNomeUsuario()+"amigos");
+
+            Stream<Usuario> usuarioList = usuarioData.stream().filter(user -> usuario.getId() == Integer.parseInt(id));
+
+            return usuarioList.findFirst().isPresent();
+
+        } else {
+            System.out.println("ID inválido!");
+            verFeed(usuario);
+            return false;
+
+        }
+
+    }
+
+
+    public static void exibirAmigos(Usuario usuario){
+        File file = new File("Social_Media/src/main/resources/" + usuario.getNomeUsuario()+"amigos" + ".csv");
+        if(!file.exists()) {
+            ArquivoUtil<String> amigosDatabase = new ArquivoUtil<>();
+            amigosDatabase.escreverArquivo("ID,NOME DO USUARIO,EMAIL,SENHA,DATA DE CRIAÇÃO,FAVORITOS,AMIGOS",
+                    usuario.getNomeUsuario()+"amigos");
+            System.out.println("Você ainda não tem amigos :(");
+            obterAmigo(usuario);
+            System.out.println();
+            exibirOpcoesDePerfil(usuario);
+        } else {
+            List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo("usuarioDatabase");
+            List<Usuario> usuarioData = new ArquivoUtil<String>()
+                    .lerArquivo(usuario.getNomeUsuario()+"amigos");
+            String amigo = "";
+            if(usuarioData.size() > 0 ) {
+
+                System.out.println("Aqui estão seus amigos:");
+                for(Usuario user: usuarioData) {
+                    Stream<Usuario> usuarioLogado =
+                            usuariosData.stream().filter(data -> data.getId() == user.getId());
+                    amigo = "Id: " + user.getId() + '\n' +
+                            "Nome: " + user.getNomeUsuario() + '\n' +
+                            "Email: " + user.getEmail() + '\n' +
+                            "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
+                            "Lista de favoritos: " + user.getFavoritos() + '\n' +
+                            "Lista de amigos: " + user.getAmigos() + '\n' +
+                            '\n';
+                    System.out.println(amigo);
+                    obterRemoverAmigos(usuario);
+                }
+            } else {
+                System.out.println("Você ainda não tem amigos :(");
+                obterAmigo(usuario);
+
+            }
+
+        }
+        obterAmigo(usuario);
     }
 }

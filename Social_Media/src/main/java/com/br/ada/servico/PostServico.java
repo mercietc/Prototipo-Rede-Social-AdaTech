@@ -1,20 +1,13 @@
 package com.br.ada.servico;
-
 import com.br.ada.modelo.Post;
-import com.br.ada.modelo.PostBuilder;
 import com.br.ada.modelo.Usuario;
-import com.br.ada.utilidade.ArquivoUtil;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import static com.br.ada.repository.PostRepository.*;
-import static com.br.ada.repository.UsuarioRepository.editarUsuario;
 import static com.br.ada.servico.UsuarioServico.exibirOpcoesDePerfil;
 import static com.br.ada.servico.UsuarioServico.input;
 
@@ -70,8 +63,7 @@ public class PostServico {
                 "|                                   |\n" +
                 "|    1 - Editar Post                |\n" +
                 "|    2 - Excluir Post               |\n" +
-                "|    3 - Ver Comentários            |\n" +
-                "|    4 - Voltar ao Menu Principal   |\n" +
+                "|    3 - Voltar ao Menu Principal   |\n" +
                 "|___________________________________|\n";
 
         System.out.println(menu);
@@ -85,9 +77,6 @@ public class PostServico {
                 apagarPost(post, usuario);
                 break;
             case "3":
-                System.out.println("ver comentários");
-                break;
-            case "4":
                 exibirOpcoesDePerfil(usuario);
                 break;
             default:

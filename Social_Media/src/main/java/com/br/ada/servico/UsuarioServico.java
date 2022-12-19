@@ -29,7 +29,7 @@ public class UsuarioServico {
         "|                                         MENU                                        |\n" +
         "|_____________________________________________________________________________________|\n" +
         "|                                                                                     |\n" +
-        "|     Olá! O que você gostaria de fazer hoje?                                         |\n" +
+        "|                        Olá! O que você gostaria de fazer hoje?                      |\n" +
         "|                                                                                     |\n" +
         "|                 1- Fazer Login      2- Fazer Cadastro      3- Sair                  |\n" +
         "|                                                                                     |\n" +
@@ -64,17 +64,17 @@ public class UsuarioServico {
     public static void exibirOpcoesDePerfil(Usuario usuario) {
         System.out.println(saudarUsuario() + usuario.getNome() + "!");
         String menu =
-                " -------------------------------------------------------------------------------------\n" +
-                "|                                    OPÇÕES DE PERFIL                                 |\n" +
-                "|_____________________________________________________________________________________|\n" +
-                "|                                                                                     |\n" +
-                "|     O que você gostaria de fazer hoje?                                              |\n" +
-                "|                                                                                     |\n" +
-                "|              1- Criar um post      2- Ver meus posts     3- Ver feed                |\n" +
-                "|              4- Configurar perfil  5- Meus favoritos     6- Lista de amigos         |\n" +
-                "|              7- Pesquisar          8- Notificações       9- Deslogar                |\n" +
-                "|                                                                                     |\n" +
-                "|_____________________________________________________________________________________|\n";
+                " --------------------------------------------------------------------------------\n" +
+                "|                                 OPÇÕES DE PERFIL                               |\n" +
+                "|________________________________________________________________________________|\n" +
+                "|                                                                                |\n" +
+                "|                       O que você gostaria de fazer hoje?                       |\n" +
+                "|                                                                                |\n" +
+                "|         1- Criar um post      2- Ver meus posts     3- Ver feed                |\n" +
+                "|         4- Configurar perfil  5- Meus favoritos     6- Meus amigos             |\n" +
+                "|         7- Pesquisar          8- Deslogar                                      |\n" +
+                "|                                                                                |\n" +
+                "|________________________________________________________________________________|\n";
 
         System.out.println(menu);
         String opcao = input.nextLine();
@@ -101,15 +101,12 @@ public class UsuarioServico {
                 exibirFavoritos(usuario);
                 break;
             case "6":
-                System.out.println("amigos");
+                exibirAmigos(usuario);
                 break;
             case "7":
                 obterTipoPesquisa(usuario);
                 break;
             case "8":
-                System.out.println("notificacoes");
-                break;
-            case "9":
                 System.out.println("Até mais, " + usuario.getNome() + "!");
                 ArquivoUtil<String> arquivo = new ArquivoUtil<>();
                 arquivo.escreverArquivo(usuario.getNome() + ": Horário Logout: " + LocalDateTime.now(),

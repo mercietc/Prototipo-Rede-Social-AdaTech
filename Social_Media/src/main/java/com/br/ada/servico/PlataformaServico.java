@@ -4,7 +4,6 @@ import com.br.ada.modelo.Usuario;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import static com.br.ada.repository.PlataformaRepository.*;
 import static com.br.ada.servico.UsuarioServico.exibirOpcoesDePerfil;
 
@@ -53,6 +52,7 @@ public class PlataformaServico {
                 break;
         }
     }
+
 
     public static void obterLike(Usuario usuario) {
         String menu =
@@ -119,6 +119,7 @@ public class PlataformaServico {
 
 
     }
+
     public static void obterAcaoPost(String opcao, Usuario usuario) {
         switch (opcao) {
             case "1":
@@ -147,5 +148,68 @@ public class PlataformaServico {
                 verFeed(usuario);
                 break;
         }
+    }
+
+    public static void obterAmigo(Usuario usuario) {
+        String menu =
+                " ---------------------------------------------------\n" +
+                "|                        AMIGOS                     |\n" +
+                "|___________________________________________________|\n" +
+                "|                                                   |\n" +
+                "|          Gostaria de adicionar um amigo?          |\n" +
+                "|                                                   |\n" +
+                "|             1 - SIM           2 - NÃO             |\n" +
+                "|___________________________________________________|\n";
+
+        System.out.println(menu);
+        System.out.println("Digite a opção desejada:");
+        String opcao = input.nextLine();
+
+        switch (opcao) {
+            case "1":
+                System.out.println("\nConfira os usuários disponíveis para fazer novas amizades: \n");
+                verUsuarios(usuario);
+                System.out.println("\nDigite o ID do usuário que deseja adicionar como amigo: ");
+                adicionarAmigo(input.nextLine(),usuario);
+                break;
+            case "2":
+                exibirOpcoesDePerfil(usuario);
+                break;
+            default:
+                logger.log(Level.WARNING, "Opção inválida, insira uma opção válida!" + '\n');
+                obterAmigo(usuario);
+                break;
+        }
+    }
+
+    public static void obterRemoverAmigos(Usuario usuario){
+        String menu =
+                " -----------------------------------------------------------------\n" +
+                "|                               AMIGOS                            |\n" +
+                "|_________________________________________________________________|\n" +
+                "|                                                                 |\n" +
+                "|   Você gostaria de remover um usuário da sua lista de amigos?   |\n" +
+                "|                                                                 |\n" +
+                "|                     1 - SIM           2 - NÃO                   |\n" +
+                "|_________________________________________________________________|\n";
+
+        System.out.println(menu);
+        System.out.println();
+        System.out.println("Insira a opção desejada:");
+        switch(input.nextLine()){
+            case "1":
+                System.out.println("Insira o ID do usuário que deseja remover:");
+                removerAmigo(input.nextLine(), usuario);
+                break;
+            case "2":
+                exibirOpcoesDePerfil(usuario);
+                break;
+            default:
+                logger.log(Level.WARNING, "Opção inválida, insira uma opção válida!" + '\n');
+                exibirOpcoesDePerfil(usuario);
+                break;
+        }
+
+
     }
 }
