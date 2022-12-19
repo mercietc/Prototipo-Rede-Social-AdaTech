@@ -301,9 +301,10 @@ public class PlataformaRepository {
                     String amigos = "";
                     for (Usuario user : usuario.getAmigos()) {
                         amigos =
-                                user.getId() + "," + user.getNomeUsuario() + "," + user.getEmail() +
-                                        "," + user.getSenha() + "," + user.getDataCriacao() + "," + user.getFavoritos()
-                                        + "," + user.getAmigos();
+                                user.getId() + "," + user.getNome() +  "," +
+                                        user.getDataNascimento() + "," + user.getProfissao() + "," +
+                                        user.getNomeUsuario() + "," + user.getEmail() + "," +
+                                        user.getSenha() + "," + user.getDataCriacao();
                         amigosDatabase.escreverArquivo(amigos, usuario.getNomeUsuario()+"amigos");
                     }
                 }
@@ -361,7 +362,8 @@ public class PlataformaRepository {
         File file = new File("Social_Media/src/main/resources/" + usuario.getNomeUsuario()+"amigos" + ".csv");
         if(!file.exists()) {
             ArquivoUtil<String> amigosDatabase = new ArquivoUtil<>();
-            amigosDatabase.escreverArquivo("ID,NOME DO USUARIO,EMAIL,SENHA,DATA DE CRIAÇÃO,FAVORITOS,AMIGOS",
+            amigosDatabase.escreverArquivo("ID,NOME,DATA DE NASCIMENTO,PROFISSAO,NOME DE USUARIO,E-MAIL,SENHA,DATA DE CRIACAO"
+                    ,
                     usuario.getNomeUsuario()+"amigos");
             System.out.println("Você ainda não tem amigos :(");
             obterAmigo(usuario);
@@ -379,9 +381,9 @@ public class PlataformaRepository {
                     Stream<Usuario> usuarioLogado =
                             usuariosData.stream().filter(data -> data.getId() == user.getId());
                     amigo = "Id: " + user.getId() + '\n' +
-                            "Nome: " + user.getNomeUsuario() + '\n' +
+                            "Nome: " + user.getNome() + '\n' +
                             "Email: " + user.getEmail() + '\n' +
-                            "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
+                         "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
                             "Lista de favoritos: " + user.getFavoritos() + '\n' +
                             "Lista de amigos: " + user.getAmigos() + '\n' +
                             '\n';
