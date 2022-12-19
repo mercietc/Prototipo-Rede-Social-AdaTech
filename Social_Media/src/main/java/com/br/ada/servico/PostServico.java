@@ -18,11 +18,11 @@ public class PostServico {
 
     public static void obterPostInfo(Usuario usuario){
         Scanner in = new Scanner(System.in);
-        logger.log(Level.INFO,"\n------------------------ Novo Post ------------------------");
+        System.out.println("\n------------------------ Novo Post ------------------------");
 
-        logger.log(Level.INFO,"Digite o título do post: ");
+        System.out.println("Digite o título do post: ");
         String titulo = in.nextLine();
-        logger.log(Level.INFO,"Digite o corpo do post: ");
+        System.out.println("Digite o corpo do post: ");
         String corpo = in.nextLine();
         criaPost(titulo,corpo, usuario);
 
