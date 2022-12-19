@@ -35,12 +35,12 @@ public class PlataformaServico {
         switch (opcao) {
             case "1":
                 System.out.println("Digite sua pesquisa:");
-                System.out.println(pesquisarPost(input.nextLine()));
+                pesquisarPost(input.nextLine());
                 exibirOpcoesDePerfil(usuario);
                 break;
             case "2":
                 System.out.println("Digite sua pesquisa:");
-                System.out.println(pesquisarUsuario(input.nextLine()));
+                pesquisarUsuario(input.nextLine(), usuario);
                 exibirOpcoesDePerfil(usuario);
                 break;
             case "3":
