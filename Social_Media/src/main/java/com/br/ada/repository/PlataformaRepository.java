@@ -19,22 +19,49 @@ import static com.br.ada.utilidade.GeneralUtil.isInteger;
 
 public class PlataformaRepository {
     static Scanner input = new Scanner(System.in);
-    public static List<Usuario> pesquisarUsuario(String usuario) {
+    public static void pesquisarUsuario(String usuario, Usuario usuarioObj) {
         List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo( "usuarioDatabase");
         Stream<Usuario> usuarioStream =
                 usuariosData.stream().filter(data -> data.getNomeUsuario().toUpperCase().contains(usuario.toUpperCase()) ||
                         data.getNome().toUpperCase().contains(usuario.toUpperCase()));
 
-        return  usuarioStream.collect(Collectors.toList());
+        for(Usuario user : usuarioStream.collect(Collectors.toList())) {
+            String verUsuarios =
+                    "Id: " + user.getId() + '\n' +
+                            "Nome: " + user.getNome() + '\n' +
+                            "Nome de usuário: " + user.getNomeUsuario() + '\n' +
+                            "Email: " + user.getEmail() + '\n' +
+                            "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
+                            "Lista de favoritos: " + user.getFavoritos() + '\n' +
+                            "Lista de amigos: " + user.getAmigos() + '\n' +
+                            '\n';
+
+            System.out.println(verUsuarios);
+        }
     }
 
-    public static List<Post> pesquisarPost(String post) {
+    public static void pesquisarPost(String posts) {
         List<Post> postData = new ArquivoUtil<String>().lerPost( "postDatabase");
         Stream<Post> postStream =
-                postData.stream().filter(data -> data.getTitulo().toUpperCase().contains(post.toUpperCase()) ||
-                        data.getCorpo().toUpperCase().contains(post.toUpperCase()));
+                postData.stream().filter(data -> data.getTitulo().toUpperCase().contains(posts.toUpperCase()) ||
+                        data.getCorpo().toUpperCase().contains(posts.toUpperCase()));
 
-        return postStream.collect(Collectors.toList());
+        List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo("usuarioDatabase");
+        for(Post post :  postStream.collect(Collectors.toList())) {
+
+            Stream<Usuario> usuarioLogado =
+                    usuariosData.stream().filter(data -> data.getId() == post.getIdUsuario());
+
+            String  feedPost = "Id: " + post.getId() + '\n' +
+                    "Título: " + post.getTitulo() + '\n' +
+                    "Conteúdo: " + post.getCorpo() + '\n' +
+                    "Autor: " + usuarioLogado.findFirst().get().getNome() + '\n' +
+                    "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
+                    "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
+                    "Likes: " + post.getLikes() + '\n' +
+                    '\n';
+            System.out.println(feedPost);
+        }
     }
 
     public static void  verUsuarios(Usuario usuario) {
@@ -47,17 +74,19 @@ public class PlataformaRepository {
 
             String verUsuarioFeed =
                     "Id: " + user.getId() + '\n' +
-                    "Nome: " + user.getNomeUsuario() + '\n' +
-                    "Email: " + user.getEmail() + '\n' +
-                    "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
-                    "Lista de favoritos: " + user.getFavoritos() + '\n' +
-                    "Lista de amigos: " + user.getAmigos() + '\n' +
-                    '\n';
+                            "Nome: " + user.getNome() + '\n' +
+                            "Nome de usuário: " + user.getNomeUsuario() + '\n' +
+                            "Email: " + user.getEmail() + '\n' +
+                            "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
+                            "Lista de favoritos: " + user.getFavoritos() + '\n' +
+                            "Lista de amigos: " + user.getAmigos() + '\n' +
+                            '\n';
+
 
             System.out.println(verUsuarioFeed);
 
         }
-//        adicionarAmigo(id, usuario);
+//       adicionarAmigo(input.nextLine(), usuario);
     }
 
     public static void  verFeed(Usuario usuario) {
@@ -165,8 +194,15 @@ public class PlataformaRepository {
     }
 
     public static void adicionarPostAosFavoritos(String id, Usuario usuario) {
+        List<Post> postDataFinder = new ArquivoUtil<String>().lerPost("postDatabase");
+        boolean findPost =
+                postDataFinder.stream().filter(post -> post.getId() == Integer.parseInt(id)).findAny().isPresent();
         if(checarSeJaFavoritos(usuario, id)) {
             System.err.println("Esse post já foi favoritado!");
+            System.out.println();
+            verFeed(usuario);
+        } else if(!findPost) {
+            System.err.println("Não foi encontrado posts com esse ID");
             System.out.println();
             verFeed(usuario);
         }
