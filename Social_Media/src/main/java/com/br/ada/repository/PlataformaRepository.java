@@ -9,11 +9,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static com.br.ada.repository.PostRepository.logger;
 import static com.br.ada.servico.PlataformaServico.obterLike;
 import static com.br.ada.servico.PlataformaServico.obterRemoverFavoritos;
 import static com.br.ada.servico.PostServico.fluxoMeuPost;
@@ -60,8 +57,6 @@ public class PlataformaRepository {
                     "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
                     "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
                     "Likes: " + post.getLikes() + '\n' +
-                    "Comentários: " + post.getComentarios() + '\n' +
-
                     '\n';
 
             System.out.println(feedPost);
@@ -84,9 +79,8 @@ public class PlataformaRepository {
                 feedPost = "Id: " + post.getId() + '\n' +
                         "Título: " + post.getTitulo() + '\n' +
                         "Conteúdo: " + post.getCorpo() + '\n' +
-                        "Autor: " + usuarioLogado.findFirst().get().getNome()
-                        + '\n'
-                + "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
+                        "Autor: " + usuarioLogado.findFirst().get().getNome() + '\n' +
+                        "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
                         "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
                         "Likes: " + post.getLikes() + '\n' +
                         '\n';
@@ -147,66 +141,6 @@ public class PlataformaRepository {
         }
 
     }
-/**
-    public static void comentarPost(String id, Usuario usuario) {
-
-        String comentedPost = "";
-        if(isInteger(id)) {
-            List<Post> postData = new ArquivoUtil<String>().lerPost("postDatabase");
-
-            for(Post post: postData) {
-                if(post.getId() == Integer.parseInt(id)) {
-                    post.criarComentario();
-
-                    comentedPost = "Post comentado com sucesso!\n";
-                    System.out.println(comentedPost);
-
-
-                    ArquivoUtil<String> arquivo = new ArquivoUtil<>();
-                    List<Post> lista = arquivo.lerPost("postDatabase");
-                    new ArquivoUtil<String>().atualizarPost(lista,"postDatabase", post);
-                    verFeed(usuario);
-
-                }
-            }
-        } else {
-            System.out.println("ID inválido!");
-            exibirOpcoesDePerfil(usuario);
-        }
-        if (comentedPost.equals("")) {
-            System.out.println("Post não encontrado.");
-            System.out.println();
-            exibirOpcoesDePerfil(usuario);
-        }
-
-    }
-
-    public static void removerComentarioPost(String id, Usuario usuario, Post post, String comentario) {
-        if (usuario.getId() != post.getIdUsuario()) {
-            System.err.println("Somente o dono do comentário pode removê-lo!");
-            System.out.println();
-            exibirOpcoesDePerfil(usuario);
-        } else {
-
-            ArquivoUtil<String> arquivo = new ArquivoUtil<>();
-            List<Post> lista = arquivo.lerPost(usuario.getNomeUsuario()+"comentarios");
-            Stream<Post> postfilter = lista.stream().filter(data -> data.getId() == Integer.parseInt(id));
-            post = postfilter.findFirst().get();
-
-            for (int i = 0; i < lista.size(); i++) {
-                if (lista.get(i).getId() == post.getId()) {
-                    lista.remove(lista.get(i));
-                }
-            }
-            new ArquivoUtil<String>().deletarComentario(lista, usuario.getNomeUsuario()+"comentarios", comentario);
-
-            System.out.println("Post deletado com sucesso!");
-            exibirOpcoesDePerfil(usuario);
-        }
-
-    }
-
-*/
 
     public static void adicionarPostAosFavoritos(String id, Usuario usuario) {
         if(checarSeJaFavoritos(usuario, id)) {
@@ -319,7 +253,6 @@ public class PlataformaRepository {
                 exibirOpcoesDePerfil(usuario);
 
             }
-
 
         }
 

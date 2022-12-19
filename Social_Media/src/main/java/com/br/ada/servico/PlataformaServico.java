@@ -1,8 +1,6 @@
 package com.br.ada.servico;
 
-import com.br.ada.modelo.Post;
 import com.br.ada.modelo.Usuario;
-
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,9 +79,7 @@ public class PlataformaServico {
                         "|                 Você gostaria de:                |\n" +
                         "|                                                  |\n" +
                         "|         1- Curtir                                |\n" +
-                        "|         2- Comentar                              |\n" +
-                        "|         3- Remover comentário                    |\n" +
-                        "|         4- Adicionar post aos Favoritos          |\n" +
+                        "|         2- Adicionar post aos Favoritos          |\n" +
                         "|__________________________________________________|\n";
 
         System.out.println(menu);
@@ -140,16 +136,11 @@ public class PlataformaServico {
         switch (opcao) {
             case "1":
                 curtirPost(id, usuario);
+                verFeed(usuario);
                 break;
             case "2":
-                //comentarPost(id,usuario);
-                verFeed(usuario);
-                break;
-            case "3":
-                //removerComentarioPost(id,usuario,post);
-                verFeed(usuario);
-            case "4":
                 adicionarPostAosFavoritos(id, usuario);
+                verFeed(usuario);
                 break;
             default:
                 logger.log(Level.WARNING, "Opção inválida, insira uma opção válida!" + '\n');

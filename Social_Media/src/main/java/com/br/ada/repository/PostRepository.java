@@ -38,7 +38,7 @@ public class PostRepository {
         String postCSV =
                 post.getId() + "," + post.getIdUsuario() + "," + post.getTitulo() +
                         "," + post.getCorpo() + "," + post.getDataCriacao() + "," +post.getDataAtualizacao()
-                        + "," + post.getLikes() + "," + post.getComentarios();
+                        + "," + post.getLikes();
         ArquivoUtil<String> arquivo = new ArquivoUtil<>();
 
         arquivo.escreverArquivo(postCSV,
@@ -68,7 +68,6 @@ public class PostRepository {
                             "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
                             "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
                             "Likes: " + post.getLikes() + '\n' +
-                            "Comentários: " + post.getComentarios() + '\n' +
                             '\n';
 
                     System.out.println(feedPost);
