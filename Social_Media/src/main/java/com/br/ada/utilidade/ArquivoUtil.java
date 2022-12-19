@@ -17,19 +17,19 @@ public class ArquivoUtil<T> {
     public void escreverArquivo(T t, String fileName) {
 
 
-            String path = "Social_Media/src/main/resources/" + fileName + ".csv";
-            Path path1 = Path.of(path);
-            try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path1.toFile(), true))) {
-                csvWriter.write(t.toString());
-                csvWriter.newLine();
+        String path = "Social_Media/src/main/resources/" + fileName + ".csv";
+        Path path1 = Path.of(path);
+        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path1.toFile(), true))) {
+            csvWriter.write(t.toString());
+            csvWriter.newLine();
 
 
-            } catch (
-                    IOException e) {
-                System.out.println("error:" + e.getMessage());
-            }
-
+        } catch (
+                IOException e) {
+            System.out.println("error:" + e.getMessage());
         }
+
+    }
     public ArquivoUtil atualizarArquivo(List<Usuario> lista, String fileName, Usuario usuario) {
 
         String path = "Social_Media/src/main/resources/" + fileName + ".csv";
@@ -84,51 +84,51 @@ public class ArquivoUtil<T> {
     }
 
     public List<Usuario> lerArquivo (String fileName) {
-            String path = "Social_Media/src/main/resources/" + fileName + ".csv";
-            Path path1 = Path.of(path);
-            try (BufferedReader file = new BufferedReader(new FileReader(path1.toFile()))) {
-                String row = file.readLine();
+        String path = "Social_Media/src/main/resources/" + fileName + ".csv";
+        Path path1 = Path.of(path);
+        try (BufferedReader file = new BufferedReader(new FileReader(path1.toFile()))) {
+            String row = file.readLine();
 
-                List<Usuario> arquivo = new ArrayList<>();
-                List<String> linhas = new ArrayList<>();
-                while (row != null) {
+            List<Usuario> arquivo = new ArrayList<>();
+            List<String> linhas = new ArrayList<>();
+            while (row != null) {
 
+                row = file.readLine();
+                linhas.add(row);
+
+                if(row != null) {
                     row = file.readLine();
                     linhas.add(row);
-
-                    if(row != null) {
-                        row = file.readLine();
-                        linhas.add(row);
-                    }
                 }
-                linhas.remove(linhas.get(linhas.size() - 1));
+            }
+            linhas.remove(linhas.get(linhas.size() - 1));
 
-                for(int i = 0; i < linhas.size(); i++) {
+            for(int i = 0; i < linhas.size(); i++) {
 
-                        String[] usuario = linhas.get(i).split(",");
-                        Usuario usuarioData =
-                                new UsuarioBuilder().nome(usuario[1])
-                                        .dataNascimento(formatarData2(usuario[2]))
-                                        .profissao(usuario[3])
-                                        .nomeUsuario(usuario[4])
-                                        .email(usuario[5])
-                                        .senha(usuario[6])
-                                        .build();
-                    usuarioData.setId(Integer.parseInt(usuario[0]));
-                    usuarioData.setDataCriacao(formatarData2(usuario[7]));
-                        arquivo.add(usuarioData);
+                String[] usuario = linhas.get(i).split(",");
+                Usuario usuarioData =
+                        new UsuarioBuilder().nome(usuario[1])
+                                .dataNascimento(formatarData2(usuario[2]))
+                                .profissao(usuario[3])
+                                .nomeUsuario(usuario[4])
+                                .email(usuario[5])
+                                .senha(usuario[6])
+                                .build();
+                usuarioData.setId(Integer.parseInt(usuario[0]));
+                usuarioData.setDataCriacao(formatarData2(usuario[7]));
+                arquivo.add(usuarioData);
 
-                }
-
-                return arquivo;
-
-            } catch (
-                    IOException e) {
-                System.out.println("error:" + e.getMessage());
             }
 
-            return null;
+            return arquivo;
+
+        } catch (
+                IOException e) {
+            System.out.println("error:" + e.getMessage());
         }
+
+        return null;
+    }
 
     public List<Post> lerPost (String fileName) {
         String path = "Social_Media/src/main/resources/" + fileName + ".csv";
@@ -188,7 +188,7 @@ public class ArquivoUtil<T> {
                 String stringPost = lista.get(i).getId() + "," + lista.get(i).getIdUsuario() + "," +
                         lista.get(i).getTitulo() + "," + lista.get(i).getCorpo() + "," +
                         lista.get(i).getDataCriacao() + "," + lista.get(i).getDataAtualizacao() +
-                "," + lista.get(i).getLikes();
+                        "," + lista.get(i).getLikes();
                 csvWriter.write(stringPost);
                 csvWriter.newLine();
                 csvWriter.flush();
