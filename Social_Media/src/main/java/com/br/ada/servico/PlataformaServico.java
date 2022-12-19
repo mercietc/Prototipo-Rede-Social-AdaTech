@@ -1,11 +1,9 @@
 package com.br.ada.servico;
 
 import com.br.ada.modelo.Usuario;
-
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import static com.br.ada.repository.PlataformaRepository.*;
 import static com.br.ada.servico.UsuarioServico.exibirOpcoesDePerfil;
 
@@ -16,13 +14,19 @@ public class PlataformaServico {
     static Scanner input = new Scanner(System.in);
 
     public static void obterTipoPesquisa(Usuario usuario) {
-        String menu =  "\n" + "1 - Pesquisar Posts" +
-                "\n" + "2 - Pesquisar Usuários" +
-                "\n" + "3 - Voltar "
-                + "\n";
+        String menu =
+                " ----------------------------------------------------\n" +
+                "|                   TIPO DE PESQUISA                 |\n" +
+                "|____________________________________________________|\n" +
+                "|                                                    |\n" +
+                "|     Que tipo de pesquisa você gostaria de fazer?   |\n" +
+                "|                                                    |\n" +
+                "|    1 - Pesquisar Posts                             |\n" +
+                "|    2 - Pesquisar Usuários                          |\n" +
+                "|    3 - Voltar                                      |\n" +
+                "|____________________________________________________|\n";
 
         System.out.println(menu);
-
         direcionarPesquisa(input.nextLine(), usuario);
     }
 
@@ -49,10 +53,17 @@ public class PlataformaServico {
         }
     }
 
+
     public static void obterLike(Usuario usuario) {
-        System.out.println("Gostaria de interagir com um post?");
-        String menu =  "\n" + "1 - SIM" +
-                "\n" + "2 - NÃO" + "\n";
+        String menu =
+                " ----------------------------------------------------\n" +
+                "|                      INTERAÇÃO                     |\n" +
+                "|____________________________________________________|\n" +
+                "|                                                    |\n" +
+                "|         Gostaria de interagir com um post?         |\n" +
+                "|                                                    |\n" +
+                "|             1 - SIM           2 - NÃO              |\n" +
+                "|____________________________________________________|\n";
 
         System.out.println(menu);
         System.out.println("Digite a opção desejada:");
@@ -60,10 +71,17 @@ public class PlataformaServico {
 
     }
     public static void acoesPost(String opcao, Usuario usuario, String id){
-        System.out.println("Você gostaria de:");
-        String menu =  "\n" + "1 - Curtir" +
-                "\n" + "2 - Comentar" +
-                "\n" + "3 - Adicionar aos Favoritos ";
+        String menu =
+                        " --------------------------------------------------\n" +
+                        "|                         POST                     |\n" +
+                        "|__________________________________________________|\n" +
+                        "|                                                  |\n" +
+                        "|                 Você gostaria de:                |\n" +
+                        "|                                                  |\n" +
+                        "|         1- Curtir                                |\n" +
+                        "|         2- Adicionar post aos Favoritos          |\n" +
+                        "|__________________________________________________|\n";
+
         System.out.println(menu);
         System.out.println();
         System.out.println("Insira a opção desejada:");
@@ -72,9 +90,15 @@ public class PlataformaServico {
     }
 
     public static void obterRemoverFavoritos( Usuario usuario){
-        System.out.println("Você gostaria de remover um post dos favoritos?:");
-        String menu =  "\n" + "1 - SIM" +
-                "\n" + "2 - NÃO";
+        String menu =
+                        " ----------------------------------------------------\n" +
+                        "|                      FAV0RITOS                     |\n" +
+                        "|____________________________________________________|\n" +
+                        "|                                                    |\n" +
+                        "|  Você gostaria de remover um post dos favoritos?   |\n" +
+                        "|                                                    |\n" +
+                        "|             1 - SIM           2 - NÃO              |\n" +
+                        "|____________________________________________________|\n";
 
         System.out.println(menu);
         System.out.println();
@@ -95,6 +119,7 @@ public class PlataformaServico {
 
 
     }
+
     public static void obterAcaoPost(String opcao, Usuario usuario) {
         switch (opcao) {
             case "1":
@@ -112,18 +137,79 @@ public class PlataformaServico {
         switch (opcao) {
             case "1":
                 curtirPost(id, usuario);
-                break;
-            case "2":
-                System.out.println("comentários ainda não estão funcionando");
                 verFeed(usuario);
                 break;
-            case "3":
+            case "2":
                 adicionarPostAosFavoritos(id, usuario);
+                verFeed(usuario);
                 break;
             default:
                 logger.log(Level.WARNING, "Opção inválida, insira uma opção válida!" + '\n');
                 verFeed(usuario);
                 break;
         }
+    }
+
+    public static void obterAmigo(Usuario usuario) {
+        String menu =
+                " ---------------------------------------------------\n" +
+                "|                        AMIGOS                     |\n" +
+                "|___________________________________________________|\n" +
+                "|                                                   |\n" +
+                "|          Gostaria de adicionar um amigo?          |\n" +
+                "|                                                   |\n" +
+                "|             1 - SIM           2 - NÃO             |\n" +
+                "|___________________________________________________|\n";
+
+        System.out.println(menu);
+        System.out.println("Digite a opção desejada:");
+        String opcao = input.nextLine();
+
+        switch (opcao) {
+            case "1":
+                System.out.println("\nConfira os usuários disponíveis para fazer novas amizades: \n");
+                verUsuarios(usuario);
+                System.out.println("\nDigite o ID do usuário que deseja adicionar como amigo: ");
+                adicionarAmigo(input.nextLine(),usuario);
+                break;
+            case "2":
+                exibirOpcoesDePerfil(usuario);
+                break;
+            default:
+                logger.log(Level.WARNING, "Opção inválida, insira uma opção válida!" + '\n');
+                obterAmigo(usuario);
+                break;
+        }
+    }
+
+    public static void obterRemoverAmigos(Usuario usuario){
+        String menu =
+                " -----------------------------------------------------------------\n" +
+                "|                               AMIGOS                            |\n" +
+                "|_________________________________________________________________|\n" +
+                "|                                                                 |\n" +
+                "|   Você gostaria de remover um usuário da sua lista de amigos?   |\n" +
+                "|                                                                 |\n" +
+                "|                     1 - SIM           2 - NÃO                   |\n" +
+                "|_________________________________________________________________|\n";
+
+        System.out.println(menu);
+        System.out.println();
+        System.out.println("Insira a opção desejada:");
+        switch(input.nextLine()){
+            case "1":
+                System.out.println("Insira o ID do usuário que deseja remover:");
+                removerAmigo(input.nextLine(), usuario);
+                break;
+            case "2":
+                exibirOpcoesDePerfil(usuario);
+                break;
+            default:
+                logger.log(Level.WARNING, "Opção inválida, insira uma opção válida!" + '\n');
+                exibirOpcoesDePerfil(usuario);
+                break;
+        }
+
+
     }
 }

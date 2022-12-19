@@ -24,13 +24,18 @@ public class UsuarioServico {
 
     public static void iniciarAplicacao() {
         String menuInicial = '\n' +
-                "       Olá, O que você gostaria de fazer hoje? " + '\n' +  '\n' +
-                "____________________________________________________" + '\n' +
-                '\n' +
-                "   1- Fazer Login    2- Fazer Cadastro    3- Sair    "  + '\n' +
-                "____________________________________________________"
-                + '\n' + '\n' +
-                "               Digite a opção desejada: " + '\n';
+        "--------------------------- Boas vindas ao [NOME DA REDE]! ---------------------------\n" +
+        " -------------------------------------------------------------------------------------\n" +
+        "|                                         MENU                                        |\n" +
+        "|_____________________________________________________________________________________|\n" +
+        "|                                                                                     |\n" +
+        "|                        Olá! O que você gostaria de fazer hoje?                      |\n" +
+        "|                                                                                     |\n" +
+        "|                 1- Fazer Login      2- Fazer Cadastro      3- Sair                  |\n" +
+        "|                                                                                     |\n" +
+        "|_____________________________________________________________________________________|\n" +
+        "| Digite a opção desejada:                                                            |\n" +
+        "|_____________________________________________________________________________________|\n";
 
         logger.log(Level.INFO, menuInicial);
         String opcao = input.nextLine();
@@ -46,7 +51,7 @@ public class UsuarioServico {
                 obterInfoCadastro();
                 break;
             case "3":
-                System.out.println("Até mais!");
+                System.out.println("______________________________________ Até mais! ______________________________________");
                 System.exit(0);
                 break;
             default:
@@ -58,17 +63,18 @@ public class UsuarioServico {
 
     public static void exibirOpcoesDePerfil(Usuario usuario) {
         System.out.println(saudarUsuario() + usuario.getNome() + "!");
-        System.out.println("O que gostaria de fazer hoje?");
-
-           String menu =  "\n" + "1 - Criar um post" +
-                   "\n" + "2 - Ver meus posts" +
-                   "\n" + "3 - Ver feed"
-                   + "\n" + "4 - Configurações de perfil" +
-                   "\n" + "5 - Meus favoritos" +
-                   "\n" + "6 - Lista de amigos" +
-                   "\n" + "7 - Pesquisar" +
-                   "\n" + "8 - Notificações" +
-                   "\n" + "9 - Deslogar " + "\n";
+        String menu =
+                " --------------------------------------------------------------------------------\n" +
+                "|                                 OPÇÕES DE PERFIL                               |\n" +
+                "|________________________________________________________________________________|\n" +
+                "|                                                                                |\n" +
+                "|                       O que você gostaria de fazer hoje?                       |\n" +
+                "|                                                                                |\n" +
+                "|         1- Criar um post      2- Ver meus posts     3- Ver feed                |\n" +
+                "|         4- Configurar perfil  5- Meus favoritos     6- Meus amigos             |\n" +
+                "|         7- Pesquisar          8- Deslogar                                      |\n" +
+                "|                                                                                |\n" +
+                "|________________________________________________________________________________|\n";
 
         System.out.println(menu);
         String opcao = input.nextLine();
@@ -95,15 +101,12 @@ public class UsuarioServico {
                 exibirFavoritos(usuario);
                 break;
             case "6":
-                System.out.println("amigos");
+                exibirAmigos(usuario);
                 break;
             case "7":
                 obterTipoPesquisa(usuario);
                 break;
             case "8":
-                System.out.println("notificacoes");
-                break;
-            case "9":
                 System.out.println("Até mais, " + usuario.getNome() + "!");
                 ArquivoUtil<String> arquivo = new ArquivoUtil<>();
                 arquivo.escreverArquivo(usuario.getNome() + ": Horário Logout: " + LocalDateTime.now(),
@@ -119,14 +122,22 @@ public class UsuarioServico {
     }
 
     public static void exibirOpcoesDeEdicaoPerfil(Usuario usuario){
-        System.out.println("Insira a opção que você gostaria de editar:");
-        String menu =  "\n" + "1 - Nome" +
-                "\n" + "2 - Data de nascimento" +
-                "\n" + "3 - Profissão "
-                + "\n" + "4 - E-mail" +
-                "\n" + "5 - Senha" +
-                "\n" + "6 - Nome de usuário" +
-                "\n" + "7 - Voltar";
+        System.out.println("");
+        String menu =
+                " -----------------------------------------------------------\n" +
+                "|                 OPÇÕES DE EDIÇÃO DE PERFIL                |\n" +
+                "|___________________________________________________________|\n" +
+                "|                                                           |\n" +
+                "|     Insira a opção que você gostaria de editar:           |\n" +
+                "|                                                           |\n" +
+                "|               1- Nome                                     |\n" +
+                "|               2- Data de nascimento                       |\n" +
+                "|               3- Profissão                                |\n" +
+                "|               4- E-mail                                   |\n" +
+                "|               5- Senha                                    |\n" +
+                "|               6- Nome de usuário                          |\n" +
+                "|               7- Voltar                                   |\n" +
+                "|___________________________________________________________|\n";
 
         System.out.println(menu);
         editarUsuario(usuario, input.nextLine());

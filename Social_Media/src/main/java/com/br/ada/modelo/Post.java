@@ -1,10 +1,9 @@
 package com.br.ada.modelo;
 
 import java.time.LocalDate;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Post implements Comentario{
+public class Post{
     Logger logger
             = Logger.getLogger(
             Post.class.getName());
@@ -18,7 +17,6 @@ public class Post implements Comentario{
     private LocalDate dataAtualizacao;
 
     private int likes = 0;
-
 
 
     public Post(){
@@ -107,21 +105,5 @@ public class Post implements Comentario{
                 " ]";
     }
 
-    @Override
-    public void criarComentario() {
-String comentario = "criar";
-        logger.log(Level.INFO, comentario);
-    }
 
-    @Override
-    public void atualizarComentario() {
-        String comentario = "atualizar";
-        logger.log(Level.INFO, comentario);
-    }
-
-    @Override
-    public void deletarComentario() {
-        String comentario = "deletar";
-        logger.log(Level.INFO, comentario);
-    }
 }

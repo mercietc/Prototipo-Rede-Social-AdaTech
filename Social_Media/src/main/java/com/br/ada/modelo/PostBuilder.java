@@ -15,11 +15,6 @@ public class PostBuilder {
     private int likes = 0;
 
 
-
-
-
-
-
     private PostBuilder id() {
         this.id = sequence + 1;
         setSequence(this.id);

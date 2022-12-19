@@ -89,11 +89,11 @@ public class UsuarioRepository {
         Stream<Usuario> usuarioStream =
                 usuariosData.stream().filter(usuario -> usuario.getEmail().equals(email));
 
-if(usuarioStream.count() > 0) {
-    return true;
-} else {
-    return false;
-}
+        if(usuarioStream.count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
     private static boolean checarSeUsernameJaCadastrado(String username) {
         List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo( "usuarioDatabase");
