@@ -227,5 +227,28 @@ public class ArquivoUtil<T> {
 
         return null;
     }
+    public List<Usuario> deletarAmigo (List<Usuario> lista, String fileName, Usuario usuario) {
+        String path = "Social_Media/src/main/resources/" + fileName + ".csv";
+        Path path1 = Path.of(path);
+        limparArquivo(fileName);
 
+        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(path1.toFile(), true))) {
+            csvWriter.write("ID,NOME,DATA DE NASCIMENTO,PROFISSAO,NOME DE USUARIO,E-MAIL,SENHA,DATA DE CRIACAO\n");
+            for(int i = 0; i < lista.size(); i++) {
+                String stringUsuario = lista.get(i).getId() +  "," + lista.get(i).getNome() + ","
+                        + lista.get(i).getDataNascimento() + "," + lista.get(i).getProfissao()  + ","
+                        + lista.get(i).getNomeUsuario() + "," + lista.get(i).getEmail() + ","
+                        + lista.get(i).getSenha() + "," + lista.get(i).getDataCriacao();
+                csvWriter.write(stringUsuario);
+                csvWriter.newLine();
+                csvWriter.flush();
+            }
+
+        } catch (
+                IOException e) {
+            System.out.println("error:" + e.getMessage());
+        }
+
+        return null;
+    }
 }

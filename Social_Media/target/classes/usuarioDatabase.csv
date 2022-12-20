@@ -3,7 +3,7 @@ ID,NOME,DATA DE NASCIMENTO,PROFISSAO,NOME DE USUARIO,E-MAIL,SENHA,DATA DE CRIACA
 2,Bruna Celestino,1995-10-09,dev,brunak,bruna@gmail.com,(.16#)<-%<(.18#)<-%<(.23$)<-%<(.26#)<-%<(.25$)<-%<(.22#)<-%<(.15$)<-%<(.19$)<-%<(.26#)<-%<(.25$)<-%<(.16#)<,2022-12-12
 3,Noah Felipe,2021-08-06,DESENVOLVEDOR,noahnoah,noah@gmail.com,(;YB@)-%<(;XC&)-%<(;WD@)-%<(;VE&)-%<(;UF@)-%<(;TG&),2022-12-12
 4,Bruna Celestino,1995-12-09,professora,brunakid,brunak@gmail.com,(.21$)>-%<(.12#)<-%<(.9$)<-%<(.7$)<-%<(.22#)<-%<(.8#)<-%<(;YB@)-%<(;XC&)-%<@,2022-12-12
-5,Bruna Celestino,1995-10-09,desenvolvedora,brunaccelestino,brunaccelestino@gmail.com,(.21$)>-%<(.12#)<-%<(.9$)<-%<(.7$)<-%<(.22#)<-%<(.8#)<-%<(;YB@)-%<(;XC&)-%<@,2022-12-13
+5,Bruna Celestino,1995-11-09,Professora,brunaccelestino,brunaccelestino@gmail.com,(.21$)>-%<(.12#)<-%<(.9$)<-%<(.7$)<-%<(.22#)<-%<(.8#)<-%<(;YB@)-%<(;XC&)-%<@,2022-12-13
 6,felipe,1111-11-11,gerente,fortes,lf@gmail.com,(.8#)<-%<(.22#)<-%<(.13$)<-%<(.19$)<-%<(;YB@)-%<(;XC&)-%<(;WD@),2022-12-13
 7,Eliana Carneiro,1969-04-08,babá,eliana2,eliana@gmail.com,(.21$)>-%<(.12#)<-%<(.9$)<-%<(.7$)<-%<(.22#)<-%<(.8#)<-%<(;YB@)-%<(;XC&)-%<@,2022-12-14
 8,mercia,1996-04-04,estudante,merciaaa,m,(;YB@)-%<(;XC&)-%<(;WD@)-%<(;VE&)-%<(;UF@)-%<(;TG&)-%<(.26#)<-%<(.25$)>-%<@,2022-12-16
@@ -12,3 +12,5 @@ ID,NOME,DATA DE NASCIMENTO,PROFISSAO,NOME DE USUARIO,E-MAIL,SENHA,DATA DE CRIACA
 11,mercia,1996-04-04,estudante,mercia1,mm@gmail.com,(;YB@)-%<(;XC&)-%<(;WD@)-%<(;VE&)-%<(;UF@)-%<(;TG&)-%<(.26#)<-%<(.25$)>-%<@,2022-12-19
 12,Mercia,1996-04-04,estudante,mercia2,m@gmail.com,(;YB@)-%<(;XC&)-%<(;WD@)-%<(;VE&)-%<(;UF@)-%<(;TG&)-%<(.26#)<-%<(.25$)>-%<@,2022-12-19
 13,Joao,2000-02-03,professorr,joao1,joao@gmail.com,(;YB@)-%<(;XC&)-%<(;WD@)-%<(;VE&)-%<(;UF@)-%<(;TG&)-%<(.26#)<-%<(.25$)>-%<@,2022-12-19
+14,Mercia,1996-04-04,dev,mercia3,mmm@gmail.com,(;YB@)-%<(;XC&)-%<(;WD@)-%<(;VE&)-%<(;UF@)-%<(;TG&)-%<(.26#)<-%<(.25$)>-%<@,2022-12-19
+15,Lucas,2003-01-09,dev,lucas1,lucas@gmail.com,(;YB@)-%<(;XC&)-%<(;WD@)-%<(;VE&)-%<(;UF@)-%<(;TG&)-%<(.26#)<-%<(.25$)>-%<@,2022-12-19

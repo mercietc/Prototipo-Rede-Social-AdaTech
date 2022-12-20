@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -19,22 +20,49 @@ import static com.br.ada.utilidade.GeneralUtil.isInteger;
 
 public class PlataformaRepository {
     static Scanner input = new Scanner(System.in);
-    public static List<Usuario> pesquisarUsuario(String usuario) {
+    public static void pesquisarUsuario(String usuario, Usuario usuarioObj) {
         List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo( "usuarioDatabase");
         Stream<Usuario> usuarioStream =
                 usuariosData.stream().filter(data -> data.getNomeUsuario().toUpperCase().contains(usuario.toUpperCase()) ||
                         data.getNome().toUpperCase().contains(usuario.toUpperCase()));
 
-        return  usuarioStream.collect(Collectors.toList());
+        for(Usuario user : usuarioStream.collect(Collectors.toList())) {
+            String verUsuarios =
+                    "Id: " + user.getId() + '\n' +
+                            "Nome: " + user.getNome() + '\n' +
+                            "Nome de usuário: " + user.getNomeUsuario() + '\n' +
+                            "Email: " + user.getEmail() + '\n' +
+                            "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
+                            "Lista de favoritos: " + user.getFavoritos() + '\n' +
+                            "Lista de amigos: " + user.getAmigos() + '\n' +
+                            '\n';
+
+            System.out.println(verUsuarios);
+        }
     }
 
-    public static List<Post> pesquisarPost(String post) {
+    public static void pesquisarPost(String posts) {
         List<Post> postData = new ArquivoUtil<String>().lerPost( "postDatabase");
         Stream<Post> postStream =
-                postData.stream().filter(data -> data.getTitulo().toUpperCase().contains(post.toUpperCase()) ||
-                        data.getCorpo().toUpperCase().contains(post.toUpperCase()));
+                postData.stream().filter(data -> data.getTitulo().toUpperCase().contains(posts.toUpperCase()) ||
+                        data.getCorpo().toUpperCase().contains(posts.toUpperCase()));
 
-        return postStream.collect(Collectors.toList());
+        List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo("usuarioDatabase");
+        for(Post post :  postStream.collect(Collectors.toList())) {
+
+            Stream<Usuario> usuarioLogado =
+                    usuariosData.stream().filter(data -> data.getId() == post.getIdUsuario());
+
+            String  feedPost = "Id: " + post.getId() + '\n' +
+                    "Título: " + post.getTitulo() + '\n' +
+                    "Conteúdo: " + post.getCorpo() + '\n' +
+                    "Autor: " + usuarioLogado.findFirst().get().getNome() + '\n' +
+                    "Data de Criação: " + formatarDataToString(post.getDataCriacao()) + '\n' +
+                    "Data de Atualização: " + formatarDataToString(post.getDataAtualizacao()) + '\n' +
+                    "Likes: " + post.getLikes() + '\n' +
+                    '\n';
+            System.out.println(feedPost);
+        }
     }
 
     public static void  verUsuarios(Usuario usuario) {
@@ -47,17 +75,15 @@ public class PlataformaRepository {
 
             String verUsuarioFeed =
                     "Id: " + user.getId() + '\n' +
-                    "Nome: " + user.getNomeUsuario() + '\n' +
-                    "Email: " + user.getEmail() + '\n' +
-                    "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
-                    "Lista de favoritos: " + user.getFavoritos() + '\n' +
-                    "Lista de amigos: " + user.getAmigos() + '\n' +
-                    '\n';
-
+                            "Nome: " + user.getNome() + '\n' +
+                            "Nome de usuário: " + user.getNomeUsuario() + '\n' +
+                            "Email: " + user.getEmail() + '\n' +
+                            "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
+                            "Lista de favoritos: " + user.getFavoritos() + '\n' +
+                            "Lista de amigos: " + user.getAmigos() + '\n' +
+                            '\n';
             System.out.println(verUsuarioFeed);
-
         }
-//        adicionarAmigo(id, usuario);
     }
 
     public static void  verFeed(Usuario usuario) {
@@ -165,30 +191,34 @@ public class PlataformaRepository {
     }
 
     public static void adicionarPostAosFavoritos(String id, Usuario usuario) {
+        List<Post> postDataFinder = new ArquivoUtil<String>().lerPost("postDatabase");
+        boolean findPost =
+                postDataFinder.stream().filter(post -> post.getId() == Integer.parseInt(id)).findAny().isPresent();
         if(checarSeJaFavoritos(usuario, id)) {
             System.err.println("Esse post já foi favoritado!");
+            System.out.println();
+            verFeed(usuario);
+        } else if(!findPost) {
+            System.err.println("Não foi encontrado posts com esse ID");
             System.out.println();
             verFeed(usuario);
         }
         else {
             String postFavorito = "";
                 List<Post> postData = new ArquivoUtil<String>().lerPost("postDatabase");
-                for (Post postList : postData) {
-                    if (postList.getId() == Integer.parseInt(id)) {
-
-                        usuario.addFavoritos(postList);
+                for (Post post : postData) {
+                    if (post.getId() == Integer.parseInt(id)) {
+                        usuario.addFavoritos(post);
                         postFavorito = "Post favoritado com sucesso!\n";
                         System.out.println(postFavorito);
                         System.out.println();
                         ArquivoUtil<String> favoritosDatabase = new ArquivoUtil<>();
                         String favoritos = "";
-                        for (Post post : usuario.getFavoritos()) {
-                            favoritos =
-                                    post.getId() + "," + post.getIdUsuario() + "," + post.getTitulo() +
-                                            "," + post.getCorpo() + "," + post.getDataCriacao() + "," + post.getDataAtualizacao()
-                                            + "," + post.getLikes();
-                            favoritosDatabase.escreverArquivo(favoritos, usuario.getNomeUsuario()+"favoritos");
-                        }
+                        favoritos =
+                                post.getId() + "," + post.getIdUsuario() + "," + post.getTitulo() +
+                                        "," + post.getCorpo() + "," + post.getDataCriacao() + "," + post.getDataAtualizacao()
+                                        + "," + post.getLikes();
+                        favoritosDatabase.escreverArquivo(favoritos, usuario.getNomeUsuario()+"favoritos");
 
                     }
                 }
@@ -267,8 +297,7 @@ public class PlataformaRepository {
                             "Likes: " + post.getLikes() + '\n' +
                             '\n';
                     System.out.println(feedPost);
-                    obterRemoverFavoritos(usuario);
-                }
+                } obterRemoverFavoritos(usuario);
             } else {
                 System.out.println("Você ainda não favoritou nenhum post :(");
                 exibirOpcoesDePerfil(usuario);
@@ -280,33 +309,31 @@ public class PlataformaRepository {
     }
 
     public static void adicionarAmigo(String id, Usuario usuario) {
+
         if(checarSeAmigoJaAdicionado(usuario, id)) {
             System.err.println("Vocês já são amigos!");
-            System.out.println();
-            verFeed(usuario);
         }
         else {
             List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo("usuarioDatabase");
-            List<Usuario> usuarioData = new ArquivoUtil<String>().lerArquivo(usuario.getNomeUsuario()+"amigos");
+
 
             String usuarioAmigo = "";
 
-            for (Usuario listaAmigos : usuariosData) {
-                if (listaAmigos.getId() == Integer.parseInt(id)) {
-                    usuario.addAmigos(listaAmigos);
+            for (Usuario user: usuariosData) {
+                if (user.getId() == Integer.parseInt(id)) {
+                    usuario.addAmigos(user);
                     usuarioAmigo = "Amigo adicionado com sucesso!\n";
                     System.out.println(usuarioAmigo);
                     System.out.println();
                     ArquivoUtil<String> amigosDatabase = new ArquivoUtil<>();
                     String amigos = "";
-                    for (Usuario user : usuario.getAmigos()) {
-                        amigos =
-                                user.getId() + "," + user.getNome() +  "," +
-                                        user.getDataNascimento() + "," + user.getProfissao() + "," +
-                                        user.getNomeUsuario() + "," + user.getEmail() + "," +
-                                        user.getSenha() + "," + user.getDataCriacao();
-                        amigosDatabase.escreverArquivo(amigos, usuario.getNomeUsuario()+"amigos");
-                    }
+                    amigos =
+                            user.getId() + "," + user.getNome() +  "," +
+                                    user.getDataNascimento() + "," + user.getProfissao() + "," +
+                                    user.getNomeUsuario() + "," + user.getEmail() + "," +
+                                    user.getSenha() + "," + user.getDataCriacao();
+                    amigosDatabase.escreverArquivo(amigos, usuario.getNomeUsuario()+"amigos");
+
                 }
             }
         }
@@ -327,10 +354,12 @@ public class PlataformaRepository {
 
             for (int i = 0; i < lista.size(); i++) {
                 if (lista.get(i).getId() == user.getId()) {
+                    usuario.removeAmigos(lista.get(i));
                     lista.remove(lista.get(i));
                 }
             }
-            //new ArquivoUtil<String>().deletarAmigo(lista, usuario.getNomeUsuario()+"amigos", user);
+
+            new ArquivoUtil<String>().deletarAmigo(lista, usuario.getNomeUsuario()+"amigos", user);
 
             System.out.println("Amizade desfeita.");
             exibirOpcoesDePerfil(usuario);
@@ -344,13 +373,13 @@ public class PlataformaRepository {
             List<Usuario> usuarioData = new ArquivoUtil<String>()
                     .lerArquivo(usuario.getNomeUsuario()+"amigos");
 
-            Stream<Usuario> usuarioList = usuarioData.stream().filter(user -> usuario.getId() == Integer.parseInt(id));
+            Stream<Usuario> usuarioList = usuarioData.stream().filter(user -> user.getId() == Integer.parseInt(id));
 
             return usuarioList.findFirst().isPresent();
 
         } else {
             System.out.println("ID inválido!");
-            verFeed(usuario);
+            verUsuarios(usuario);
             return false;
 
         }
@@ -366,9 +395,8 @@ public class PlataformaRepository {
                     ,
                     usuario.getNomeUsuario()+"amigos");
             System.out.println("Você ainda não tem amigos :(");
-            obterAmigo(usuario);
             System.out.println();
-            exibirOpcoesDePerfil(usuario);
+
         } else {
             List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo("usuarioDatabase");
             List<Usuario> usuarioData = new ArquivoUtil<String>()
@@ -383,20 +411,20 @@ public class PlataformaRepository {
                     amigo = "Id: " + user.getId() + '\n' +
                             "Nome: " + user.getNome() + '\n' +
                             "Email: " + user.getEmail() + '\n' +
-                         "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
+                            "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
                             "Lista de favoritos: " + user.getFavoritos() + '\n' +
                             "Lista de amigos: " + user.getAmigos() + '\n' +
                             '\n';
                     System.out.println(amigo);
-                    obterRemoverAmigos(usuario);
                 }
             } else {
                 System.out.println("Você ainda não tem amigos :(");
-                obterAmigo(usuario);
 
             }
 
         }
-        obterAmigo(usuario);
+        opcoesAmigos(usuario);
     }
+
+
 }
