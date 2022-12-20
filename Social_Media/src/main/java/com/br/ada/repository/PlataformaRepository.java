@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -81,12 +82,8 @@ public class PlataformaRepository {
                             "Lista de favoritos: " + user.getFavoritos() + '\n' +
                             "Lista de amigos: " + user.getAmigos() + '\n' +
                             '\n';
-
-
             System.out.println(verUsuarioFeed);
-
         }
-//       adicionarAmigo(input.nextLine(), usuario);
     }
 
     public static void  verFeed(Usuario usuario) {
@@ -209,22 +206,19 @@ public class PlataformaRepository {
         else {
             String postFavorito = "";
                 List<Post> postData = new ArquivoUtil<String>().lerPost("postDatabase");
-                for (Post postList : postData) {
-                    if (postList.getId() == Integer.parseInt(id)) {
-
-                        usuario.addFavoritos(postList);
+                for (Post post : postData) {
+                    if (post.getId() == Integer.parseInt(id)) {
+                        usuario.addFavoritos(post);
                         postFavorito = "Post favoritado com sucesso!\n";
                         System.out.println(postFavorito);
                         System.out.println();
                         ArquivoUtil<String> favoritosDatabase = new ArquivoUtil<>();
                         String favoritos = "";
-                        for (Post post : usuario.getFavoritos()) {
-                            favoritos =
-                                    post.getId() + "," + post.getIdUsuario() + "," + post.getTitulo() +
-                                            "," + post.getCorpo() + "," + post.getDataCriacao() + "," + post.getDataAtualizacao()
-                                            + "," + post.getLikes();
-                            favoritosDatabase.escreverArquivo(favoritos, usuario.getNomeUsuario()+"favoritos");
-                        }
+                        favoritos =
+                                post.getId() + "," + post.getIdUsuario() + "," + post.getTitulo() +
+                                        "," + post.getCorpo() + "," + post.getDataCriacao() + "," + post.getDataAtualizacao()
+                                        + "," + post.getLikes();
+                        favoritosDatabase.escreverArquivo(favoritos, usuario.getNomeUsuario()+"favoritos");
 
                     }
                 }
@@ -303,8 +297,7 @@ public class PlataformaRepository {
                             "Likes: " + post.getLikes() + '\n' +
                             '\n';
                     System.out.println(feedPost);
-                    obterRemoverFavoritos(usuario);
-                }
+                } obterRemoverFavoritos(usuario);
             } else {
                 System.out.println("Você ainda não favoritou nenhum post :(");
                 exibirOpcoesDePerfil(usuario);
@@ -316,33 +309,31 @@ public class PlataformaRepository {
     }
 
     public static void adicionarAmigo(String id, Usuario usuario) {
+
         if(checarSeAmigoJaAdicionado(usuario, id)) {
             System.err.println("Vocês já são amigos!");
-            System.out.println();
-            verFeed(usuario);
         }
         else {
             List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo("usuarioDatabase");
-            List<Usuario> usuarioData = new ArquivoUtil<String>().lerArquivo(usuario.getNomeUsuario()+"amigos");
+
 
             String usuarioAmigo = "";
 
-            for (Usuario listaAmigos : usuariosData) {
-                if (listaAmigos.getId() == Integer.parseInt(id)) {
-                    usuario.addAmigos(listaAmigos);
+            for (Usuario user: usuariosData) {
+                if (user.getId() == Integer.parseInt(id)) {
+                    usuario.addAmigos(user);
                     usuarioAmigo = "Amigo adicionado com sucesso!\n";
                     System.out.println(usuarioAmigo);
                     System.out.println();
                     ArquivoUtil<String> amigosDatabase = new ArquivoUtil<>();
                     String amigos = "";
-                    for (Usuario user : usuario.getAmigos()) {
-                        amigos =
-                                user.getId() + "," + user.getNome() +  "," +
-                                        user.getDataNascimento() + "," + user.getProfissao() + "," +
-                                        user.getNomeUsuario() + "," + user.getEmail() + "," +
-                                        user.getSenha() + "," + user.getDataCriacao();
-                        amigosDatabase.escreverArquivo(amigos, usuario.getNomeUsuario()+"amigos");
-                    }
+                    amigos =
+                            user.getId() + "," + user.getNome() +  "," +
+                                    user.getDataNascimento() + "," + user.getProfissao() + "," +
+                                    user.getNomeUsuario() + "," + user.getEmail() + "," +
+                                    user.getSenha() + "," + user.getDataCriacao();
+                    amigosDatabase.escreverArquivo(amigos, usuario.getNomeUsuario()+"amigos");
+
                 }
             }
         }
@@ -363,10 +354,12 @@ public class PlataformaRepository {
 
             for (int i = 0; i < lista.size(); i++) {
                 if (lista.get(i).getId() == user.getId()) {
+                    usuario.removeAmigos(lista.get(i));
                     lista.remove(lista.get(i));
                 }
             }
-            //new ArquivoUtil<String>().deletarAmigo(lista, usuario.getNomeUsuario()+"amigos", user);
+
+            new ArquivoUtil<String>().deletarAmigo(lista, usuario.getNomeUsuario()+"amigos", user);
 
             System.out.println("Amizade desfeita.");
             exibirOpcoesDePerfil(usuario);
@@ -380,13 +373,13 @@ public class PlataformaRepository {
             List<Usuario> usuarioData = new ArquivoUtil<String>()
                     .lerArquivo(usuario.getNomeUsuario()+"amigos");
 
-            Stream<Usuario> usuarioList = usuarioData.stream().filter(user -> usuario.getId() == Integer.parseInt(id));
+            Stream<Usuario> usuarioList = usuarioData.stream().filter(user -> user.getId() == Integer.parseInt(id));
 
             return usuarioList.findFirst().isPresent();
 
         } else {
             System.out.println("ID inválido!");
-            verFeed(usuario);
+            verUsuarios(usuario);
             return false;
 
         }
@@ -402,9 +395,8 @@ public class PlataformaRepository {
                     ,
                     usuario.getNomeUsuario()+"amigos");
             System.out.println("Você ainda não tem amigos :(");
-            obterAmigo(usuario);
             System.out.println();
-            exibirOpcoesDePerfil(usuario);
+
         } else {
             List<Usuario> usuariosData = new ArquivoUtil<String>().lerArquivo("usuarioDatabase");
             List<Usuario> usuarioData = new ArquivoUtil<String>()
@@ -419,20 +411,20 @@ public class PlataformaRepository {
                     amigo = "Id: " + user.getId() + '\n' +
                             "Nome: " + user.getNome() + '\n' +
                             "Email: " + user.getEmail() + '\n' +
-                         "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
+                            "Conta criada em: " + formatarDataToString(user.getDataCriacao()) + '\n' +
                             "Lista de favoritos: " + user.getFavoritos() + '\n' +
                             "Lista de amigos: " + user.getAmigos() + '\n' +
                             '\n';
                     System.out.println(amigo);
-                    obterRemoverAmigos(usuario);
                 }
             } else {
                 System.out.println("Você ainda não tem amigos :(");
-                obterAmigo(usuario);
 
             }
 
         }
-        obterAmigo(usuario);
+        opcoesAmigos(usuario);
     }
+
+
 }
